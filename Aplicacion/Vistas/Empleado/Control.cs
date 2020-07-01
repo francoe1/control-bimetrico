@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using Aplicacion.Vistas.RegistroHorario;
+using System.Windows.Forms;
 
 namespace Aplicacion.Vistas.Empleado
 {

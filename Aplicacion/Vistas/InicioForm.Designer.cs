@@ -38,11 +38,11 @@
             this._btnJornada = new System.Windows.Forms.Button();
             this._btnReportes = new System.Windows.Forms.Button();
             this._btnConsola = new System.Windows.Forms.Button();
+            this._btnConfiguracion = new System.Windows.Forms.Button();
             this._btnSalir = new System.Windows.Forms.Button();
             this._panelControls = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this._lblTitle = new System.Windows.Forms.Label();
-            this._btnConfiguracion = new System.Windows.Forms.Button();
             this.menuVertical.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -113,6 +113,7 @@
             this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Visible = false;
             // 
             // _btnUsers
             // 
@@ -238,6 +239,32 @@
             this._btnConsola.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._btnConsola.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this._btnConsola.UseVisualStyleBackColor = false;
+            this._btnConsola.Visible = false;
+            // 
+            // _btnConfiguracion
+            // 
+            this._btnConfiguracion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(45)))), ((int)(((byte)(54)))));
+            this._btnConfiguracion.CausesValidation = false;
+            this._btnConfiguracion.FlatAppearance.BorderSize = 0;
+            this._btnConfiguracion.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(45)))), ((int)(((byte)(54)))));
+            this._btnConfiguracion.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(55)))), ((int)(((byte)(64)))));
+            this._btnConfiguracion.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(75)))), ((int)(((byte)(84)))));
+            this._btnConfiguracion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.menuVertical.SetFlowBreak(this._btnConfiguracion, true);
+            this._btnConfiguracion.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnConfiguracion.ForeColor = System.Drawing.Color.White;
+            this._btnConfiguracion.Image = ((System.Drawing.Image)(resources.GetObject("_btnConfiguracion.Image")));
+            this._btnConfiguracion.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._btnConfiguracion.Location = new System.Drawing.Point(0, 238);
+            this._btnConfiguracion.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
+            this._btnConfiguracion.Name = "_btnConfiguracion";
+            this._btnConfiguracion.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this._btnConfiguracion.Size = new System.Drawing.Size(220, 33);
+            this._btnConfiguracion.TabIndex = 6;
+            this._btnConfiguracion.Text = "   CONFIGURACIÓN";
+            this._btnConfiguracion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._btnConfiguracion.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this._btnConfiguracion.UseVisualStyleBackColor = false;
             // 
             // _btnSalir
             // 
@@ -296,31 +323,6 @@
             this._lblTitle.Name = "_lblTitle";
             this._lblTitle.Size = new System.Drawing.Size(0, 21);
             this._lblTitle.TabIndex = 0;
-            // 
-            // _btnConfiguracion
-            // 
-            this._btnConfiguracion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(45)))), ((int)(((byte)(54)))));
-            this._btnConfiguracion.CausesValidation = false;
-            this._btnConfiguracion.FlatAppearance.BorderSize = 0;
-            this._btnConfiguracion.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(45)))), ((int)(((byte)(54)))));
-            this._btnConfiguracion.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(55)))), ((int)(((byte)(64)))));
-            this._btnConfiguracion.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(75)))), ((int)(((byte)(84)))));
-            this._btnConfiguracion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.menuVertical.SetFlowBreak(this._btnConfiguracion, true);
-            this._btnConfiguracion.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnConfiguracion.ForeColor = System.Drawing.Color.White;
-            this._btnConfiguracion.Image = ((System.Drawing.Image)(resources.GetObject("_btnConfiguracion.Image")));
-            this._btnConfiguracion.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._btnConfiguracion.Location = new System.Drawing.Point(0, 238);
-            this._btnConfiguracion.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
-            this._btnConfiguracion.Name = "_btnConfiguracion";
-            this._btnConfiguracion.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this._btnConfiguracion.Size = new System.Drawing.Size(220, 33);
-            this._btnConfiguracion.TabIndex = 6;
-            this._btnConfiguracion.Text = "   CONFIGURACIÓN";
-            this._btnConfiguracion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._btnConfiguracion.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this._btnConfiguracion.UseVisualStyleBackColor = false;
             // 
             // InicioForm
             // 

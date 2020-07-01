@@ -39,6 +39,7 @@
             this._progress = new System.Windows.Forms.ProgressBar();
             this._cblRegistrados = new System.Windows.Forms.CheckedListBox();
             this._btnCancelar = new System.Windows.Forms.Button();
+            this.m_btnManual = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._picHuella)).BeginInit();
@@ -113,9 +114,9 @@
             this._btnCapturar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._btnCapturar.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnCapturar.ForeColor = System.Drawing.Color.White;
-            this._btnCapturar.Location = new System.Drawing.Point(146, 272);
+            this._btnCapturar.Location = new System.Drawing.Point(97, 272);
             this._btnCapturar.Name = "_btnCapturar";
-            this._btnCapturar.Size = new System.Drawing.Size(126, 25);
+            this._btnCapturar.Size = new System.Drawing.Size(81, 25);
             this._btnCapturar.TabIndex = 4;
             this._btnCapturar.Text = "Capturar";
             this._btnCapturar.UseVisualStyleBackColor = false;
@@ -155,10 +156,24 @@
             this._btnCancelar.ForeColor = System.Drawing.Color.White;
             this._btnCancelar.Location = new System.Drawing.Point(10, 272);
             this._btnCancelar.Name = "_btnCancelar";
-            this._btnCancelar.Size = new System.Drawing.Size(121, 25);
+            this._btnCancelar.Size = new System.Drawing.Size(81, 25);
             this._btnCancelar.TabIndex = 4;
             this._btnCancelar.Text = "Cancelar";
             this._btnCancelar.UseVisualStyleBackColor = false;
+            // 
+            // m_btnManual
+            // 
+            this.m_btnManual.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(45)))), ((int)(((byte)(55)))));
+            this.m_btnManual.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.m_btnManual.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.m_btnManual.ForeColor = System.Drawing.Color.White;
+            this.m_btnManual.Location = new System.Drawing.Point(184, 272);
+            this.m_btnManual.Name = "m_btnManual";
+            this.m_btnManual.Size = new System.Drawing.Size(88, 25);
+            this.m_btnManual.TabIndex = 4;
+            this.m_btnManual.Text = "Manual";
+            this.m_btnManual.UseVisualStyleBackColor = false;
+            this.m_btnManual.Click += new System.EventHandler(this.m_btnManual_Click);
             // 
             // Biometrico
             // 
@@ -169,6 +184,7 @@
             this.Controls.Add(this._progress);
             this.Controls.Add(this._picHuella);
             this.Controls.Add(this._btnCancelar);
+            this.Controls.Add(this.m_btnManual);
             this.Controls.Add(this._btnCapturar);
             this.Controls.Add(this._chbManoDerecha);
             this.Controls.Add(this._cbxDedo);
@@ -201,5 +217,6 @@
         private System.Windows.Forms.ProgressBar _progress;
         private System.Windows.Forms.CheckedListBox _cblRegistrados;
         private System.Windows.Forms.Button _btnCancelar;
+        private System.Windows.Forms.Button m_btnManual;
     }
 }

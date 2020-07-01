@@ -126,6 +126,12 @@
     <Compile Include="Vistas\Empleado\Biometrico.Designer.cs">
       <DependentUpon>Biometrico.cs</DependentUpon>
     </Compile>
+    <Compile Include="Vistas\Empleado\BiometricoManual.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\Empleado\BiometricoManual.Designer.cs">
+      <DependentUpon>BiometricoManual.cs</DependentUpon>
+    </Compile>
     <Compile Include="Vistas\Empleado\Control.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -167,6 +173,12 @@
     </Compile>
     <Compile Include="Vistas\RegistroHorario\Control.Designer.cs">
       <DependentUpon>Control.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\RegistroHorario\FiltroForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\RegistroHorario\FiltroForm.Designer.cs">
+      <DependentUpon>FiltroForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Vistas\RegistroHorario\Formulario.cs">
       <SubType>Form</SubType>
@@ -224,6 +236,9 @@
     <EmbeddedResource Include="Vistas\Empleado\Biometrico.resx">
       <DependentUpon>Biometrico.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\Empleado\BiometricoManual.resx">
+      <DependentUpon>BiometricoManual.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Empleado\Control.resx">
       <DependentUpon>Control.cs</DependentUpon>
     </EmbeddedResource>
@@ -244,6 +259,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\RegistroHorario\Control.resx">
       <DependentUpon>Control.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\RegistroHorario\FiltroForm.resx">
+      <DependentUpon>FiltroForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\RegistroHorario\Formulario.resx">
       <DependentUpon>Formulario.cs</DependentUpon>

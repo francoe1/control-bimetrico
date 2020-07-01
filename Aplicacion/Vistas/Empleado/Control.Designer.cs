@@ -96,10 +96,10 @@
             // 
             // Id
             // 
+            this.Id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Id.HeaderText = "Id";
             this.Id.Name = "Id";
             this.Id.ReadOnly = true;
-            this.Id.Visible = false;
             // 
             // Nombre
             // 
@@ -184,6 +184,8 @@
         private System.Windows.Forms.Button _btnNuevo;
         private System.Windows.Forms.Button _btnActualizar;
         private System.Windows.Forms.DataGridView _table;
+        private System.Windows.Forms.Button _btnRegistros;
+        private System.Windows.Forms.Button _btnEliminar;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn Nombre;
         private System.Windows.Forms.DataGridViewTextBoxColumn Apellido;
@@ -191,7 +193,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Direccion;
         private System.Windows.Forms.DataGridViewTextBoxColumn Telefono;
         private System.Windows.Forms.DataGridViewTextBoxColumn Email;
-        private System.Windows.Forms.Button _btnRegistros;
-        private System.Windows.Forms.Button _btnEliminar;
     }
 }

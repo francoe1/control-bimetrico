@@ -2,6 +2,7 @@
 using Aplicacion.Tools;
 using Aplicacion.Vistas;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,12 +17,30 @@ namespace Aplicacion
         public static Vistas.Usuarios.FormularioAcceso FormularioAcceso { get; private set; }
         public static Configuracion Conf { get; private set; }
 
-
         [STAThread]
         private static void Main(string[] args)
         {
-            Debug = new Tools.Debug();
+            Debug = new Debug();
             DbContext = new DataContext();
+
+            {
+                IEnumerable<DatosBiometrico> data = DbContext.DatosBiometricos.FindAll();
+
+                foreach(DatosBiometrico bioA in data)
+                {
+                   foreach(DatosBiometrico bioB in data)
+                    {
+                        if (bioA.Id == bioB.Id) continue;
+
+                        if (bioA.Data == bioB.Data)
+                        {
+                            MessageBox.Show($"Existen {bioA.EmpladoId} datos biometrico repetidos");
+                            break;
+                        }
+                    }
+                }
+            }
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             new Program();

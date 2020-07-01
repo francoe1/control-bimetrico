@@ -1,5 +1,6 @@
 ﻿using Aplicacion.Datos;
 using System;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Aplicacion.Vistas.Empleado
@@ -16,11 +17,18 @@ namespace Aplicacion.Vistas.Empleado
             set
             {
                 _datos = value;
-
-                foreach (DatosBiometrico x in Program.DbContext.DatosBiometricos.Find(x => x.EmpladoId == _datos.Id))
-                    _cblRegistrados.Items.Add(x.Dedo + ((x.ManoDerecha) ? " Derecho" : " Izquierdo"));
+                UpdateRegisters();
             }
         }
+
+        private void UpdateRegisters()
+        {
+            if (Datos is null) return;
+            _cblRegistrados.Items.Clear();
+            foreach (DatosBiometrico x in Program.DbContext.DatosBiometricos.Find(x => x.EmpladoId == _datos.Id))
+                _cblRegistrados.Items.Add(x.Dedo + ((x.ManoDerecha) ? " Derecho" : " Izquierdo"));
+        }
+
         private bool m_isCapture = false;
         private Fingerprint.FingerWriter _scaner { get; set; }
 
@@ -128,14 +136,39 @@ namespace Aplicacion.Vistas.Empleado
         private void OnCancelar()
         {
             DialogResult = DialogResult.Cancel;
-            _scaner.StopCapture();
-            _scaner.ReseteCapture();
+            if (_scaner is object)
+            {
+                _scaner.StopCapture();
+                _scaner.ReseteCapture();
+            }
             Close();
         }
 
         private void InvokeSafe(Action action)
         {
             Invoke(action);
+        }
+
+        private void m_btnManual_Click(object sender, EventArgs e)
+        {
+            BiometricoManual form = new BiometricoManual();
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                Enums.EDedo dedo = (Enums.EDedo)_cbxDedo.SelectedIndex;
+                Program.DbContext.DatosBiometricos.DeleteMany(x => x.EmpladoId == _datos.Id && (x.Dedo == dedo && x.ManoDerecha == _chbManoDerecha.Checked));
+
+                Program.DbContext.DatosBiometricos.Insert(new DatosBiometrico()
+                {
+                    EmpladoId = _datos.Id,
+                    Data = form.Bytes,
+                    Dedo = dedo,
+                    ManoDerecha = _chbManoDerecha.Checked
+                });
+
+                _picHuella.Image = form.Image;
+                MessageBox.Show("Registro biometrico completo exitosamente");
+                UpdateRegisters();
+            }
         }
     }
 }

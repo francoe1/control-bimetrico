@@ -8,6 +8,8 @@ namespace Aplicacion.Vistas.RegistroHorario
 {
     public partial class Control : UserControl
     {
+        private FiltroForm m_filters { get; set; } = new FiltroForm();
+
         private Datos.Empleado _datos { get; set; }
         public Datos.Empleado Datos
         {
@@ -34,8 +36,9 @@ namespace Aplicacion.Vistas.RegistroHorario
         {
             Formulario form = new Formulario
             {
-                Datos = new Datos.RegistroHorario()
+                Datos = new Datos.RegistroHorario { Estado = Aplicacion.Datos.Enums.ERegistroEstado.Cerrado }
             };
+
             if (form.ShowDialog() == DialogResult.Yes)
             {
                 Datos.Empleado empleado = Program.DbContext.Empleado.FindById(Datos.Id);
@@ -68,7 +71,7 @@ namespace Aplicacion.Vistas.RegistroHorario
 
             foreach (var registro in Program.DbContext
                 .RegistroHorarios
-                .Find(x => x.EmpladoId == Datos.Id)
+                .Find(x => x.EmpladoId == Datos.Id && x.Entrada > m_filters.DateStart && x.Salida < m_filters.DateEnd)
                 .Take(Program.Conf.MaxRegistros)
                 .OrderByDescending(x => x.Entrada))
             {
@@ -77,6 +80,14 @@ namespace Aplicacion.Vistas.RegistroHorario
                     minutes = Math.Round((registro.Salida - registro.Entrada).Value.TotalMinutes, 2);
 
                 _table.Rows.Add(registro.Id, registro.Entrada, registro.Salida, minutes, registro.Estado);
+            }
+        }
+
+        private void m_btnFilters_Click(object sender, EventArgs e)
+        {
+            if (m_filters.ShowDialog() == DialogResult.OK)
+            {
+                UpdateTable();
             }
         }
     }

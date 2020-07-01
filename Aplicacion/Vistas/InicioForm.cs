@@ -1,4 +1,6 @@
 ﻿using Aplicacion.UI;
+using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Aplicacion.Vistas
@@ -48,7 +50,7 @@ namespace Aplicacion.Vistas
             MainMenu.HideAll();
             _btnConsola.Click += (o, e) => { new Consola().Show(); };
             _btnSalir.Click += (o, e) => Close();
-            Program.UpdateEvent += FX.Update;
+            Program.UpdateEvent += FX.Update;    
         }
 
         protected override CreateParams CreateParams

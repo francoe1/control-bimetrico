@@ -36,6 +36,7 @@
             this.Salida = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Minutos = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.m_btnFilters = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this._table)).BeginInit();
             this.SuspendLayout();
             // 
@@ -117,10 +118,25 @@
             this.Estado.ReadOnly = true;
             this.Estado.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
+            // m_btnFilters
+            // 
+            this.m_btnFilters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_btnFilters.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(48)))), ((int)(((byte)(58)))));
+            this.m_btnFilters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.m_btnFilters.ForeColor = System.Drawing.Color.White;
+            this.m_btnFilters.Location = new System.Drawing.Point(718, 3);
+            this.m_btnFilters.Name = "m_btnFilters";
+            this.m_btnFilters.Size = new System.Drawing.Size(75, 23);
+            this.m_btnFilters.TabIndex = 1;
+            this.m_btnFilters.Text = "Filtros";
+            this.m_btnFilters.UseVisualStyleBackColor = false;
+            this.m_btnFilters.Click += new System.EventHandler(this.m_btnFilters_Click);
+            // 
             // Control
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.m_btnFilters);
             this.Controls.Add(this._btnActualizar);
             this.Controls.Add(this._btnNuevo);
             this.Controls.Add(this._table);
@@ -141,5 +157,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Salida;
         private System.Windows.Forms.DataGridViewTextBoxColumn Minutos;
         private System.Windows.Forms.DataGridViewTextBoxColumn Estado;
+        private System.Windows.Forms.Button m_btnFilters;
     }
 }
