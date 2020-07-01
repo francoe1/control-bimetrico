@@ -7,7 +7,7 @@ namespace Aplicacion.UI
 {
     public class Efectos
     {
-        private List<Efectos> Items { get; set; } = new List<Efectos>();   
+        private List<Efectos> Items { get; set; } = new List<Efectos>();
         public System.Windows.Forms.Control UIControl { get; set; }
 
         private Color tmpColor { get; set; }
@@ -21,7 +21,7 @@ namespace Aplicacion.UI
 
             Conf = conf;
             if (Conf.ColorNormal == default(Color))
-                Conf.ColorNormal = UIControl.BackColor;    
+                Conf.ColorNormal = UIControl.BackColor;
 
             if (UIControl is Button)
             {
@@ -31,7 +31,7 @@ namespace Aplicacion.UI
             }
 
             tmpColor = Conf.ColorNormal;
-            UIControl.BackColor = Conf.ColorNormal;            
+            UIControl.BackColor = Conf.ColorNormal;
             UIControl.MouseEnter += (o, e) => { tmpColor = Conf.ColorHover; UIControl.Invalidate(); };
             UIControl.MouseClick += (o, e) => { tmpColor = Conf.ColorActivo; UIControl.Invalidate(); };
             UIControl.MouseLeave += (o, e) => { tmpColor = Conf.ColorNormal; UIControl.Invalidate(); };
@@ -40,7 +40,7 @@ namespace Aplicacion.UI
         public void Update()
         {
             Items.ForEach(x => x.UpdateEffect());
-        }   
+        }
 
         public Efectos Add(System.Windows.Forms.Control control, ConfigurationFX conf)
         {
@@ -57,7 +57,7 @@ namespace Aplicacion.UI
 
         private void UpdateEffect()
         {
-            UIControl.BackColor = Mathf.LerpColor(UIControl.BackColor, tmpColor, Conf.Transicion); 
+            UIControl.BackColor = Mathf.LerpColor(UIControl.BackColor, tmpColor, Conf.Transicion);
         }
 
         public class ConfigurationFX

@@ -1,12 +1,10 @@
-﻿using System;
+﻿using System.Linq;
 using System.Windows.Forms;
-using System.Data.Entity;
-using System.Linq;
 
 namespace Aplicacion.Vistas.Empleado
 {
     public partial class Formulario : Form
-    {    
+    {
         private Datos.Empleado _datos { get; set; }
         public Datos.Empleado Datos
         {
@@ -23,10 +21,11 @@ namespace Aplicacion.Vistas.Empleado
                 _txtDireccion.Text = _datos.Direccion;
                 _txtTelefono.Text = _datos.Telefono;
                 _txtEmail.Text = _datos.Email;
-                if(_datos.Jornada != null)
+
+                if (_datos.Jornada != null)
                     _cbxJornada.SelectedValue = _datos.Jornada.Id;
             }
-        }     
+        }
 
         public Formulario()
         {
@@ -34,16 +33,18 @@ namespace Aplicacion.Vistas.Empleado
             _btnCancelar.Click += (o, e) => OnCancel();
             _btnGuardar.Click += (o, e) => OnGuardar();
             _btnBiometrico.Click += (o, e) => OnBiometrico();
-            _cbxJornada.DataSource = Program.DbContext.Jornadas.ToList();
+            _cbxJornada.DataSource = Program.DbContext.Jornadas.FindAll().ToList();
             _cbxJornada.DisplayMember = "Nombre";
             _cbxJornada.ValueMember = "Id";
         }
 
         private void OnBiometrico()
         {
-            Biometrico form = new Biometrico();
-            form.Datos = _datos;
-            if(form.ShowDialog() != DialogResult.Cancel)
+            Biometrico form = new Biometrico
+            {
+                Datos = _datos
+            };
+            if (form.ShowDialog() != DialogResult.Cancel)
             {
 
             }
@@ -58,7 +59,7 @@ namespace Aplicacion.Vistas.Empleado
             _datos.Telefono = _txtTelefono.Text;
             _datos.Email = _txtEmail.Text;
             int id = (int)_cbxJornada.SelectedValue;
-            _datos.Jornada = Program.DbContext.Jornadas.Where(x => x.Id == id).Single();
+            _datos.Jornada = Program.DbContext.Jornadas.FindById(id);
             DialogResult = DialogResult.Yes;
         }
 
@@ -76,6 +77,6 @@ namespace Aplicacion.Vistas.Empleado
                 cp.ClassStyle |= CS_DROPSHADOW;
                 return cp;
             }
-        }         
+        }
     }
 }

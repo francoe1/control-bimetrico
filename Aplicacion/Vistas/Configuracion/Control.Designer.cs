@@ -46,6 +46,8 @@
             this._btnGuardar = new System.Windows.Forms.Button();
             this._numMaxRegistros = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
+            this.m_txtDatabaseLocation = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this._grpSonido.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._numMaxRegistros)).BeginInit();
@@ -208,8 +210,10 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.m_txtDatabaseLocation);
             this.groupBox1.Controls.Add(this._btnGuardar);
             this.groupBox1.Controls.Add(this._numMaxRegistros);
+            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Location = new System.Drawing.Point(4, 145);
             this.groupBox1.Name = "groupBox1";
@@ -259,6 +263,25 @@
             this.label5.TabIndex = 0;
             this.label5.Text = "Cantidad de registros";
             // 
+            // m_txtDatabaseLocation
+            // 
+            this.m_txtDatabaseLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_txtDatabaseLocation.Location = new System.Drawing.Point(132, 47);
+            this.m_txtDatabaseLocation.Name = "m_txtDatabaseLocation";
+            this.m_txtDatabaseLocation.ReadOnly = true;
+            this.m_txtDatabaseLocation.Size = new System.Drawing.Size(315, 20);
+            this.m_txtDatabaseLocation.TabIndex = 3;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(18, 50);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(106, 13);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Cantidad de registros";
+            // 
             // Control
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -295,5 +318,7 @@
         private System.Windows.Forms.NumericUpDown _numMaxRegistros;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button _btnGuardar;
+        private System.Windows.Forms.TextBox m_txtDatabaseLocation;
+        private System.Windows.Forms.Label label6;
     }
 }

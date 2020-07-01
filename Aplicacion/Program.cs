@@ -1,18 +1,15 @@
-﻿using Aplicacion.Vistas;
-using Aplicacion.Datos;
+﻿using Aplicacion.Datos;
+using Aplicacion.Tools;
+using Aplicacion.Vistas;
 using System;
-using System.Windows.Forms;
-using System.Linq;
-using System.Data.Entity;
-using System.Threading;
 using System.Threading.Tasks;
-using System.IO;
+using System.Windows.Forms;
 
 namespace Aplicacion
 {
     public class Program
     {
-        public static event Action EventUpdate;
+        public static event Action UpdateEvent;
         public static Debug Debug { get; private set; }
         public static DataContext DbContext { get; private set; }
         public static InicioForm InicioForm { get; private set; }
@@ -23,22 +20,16 @@ namespace Aplicacion
         [STAThread]
         private static void Main(string[] args)
         {
-            Debug = new Debug(true, "main");
+            Debug = new Tools.Debug();
             DbContext = new DataContext();
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);       
-
-            Program prg = new Program();
+            Application.SetCompatibleTextRenderingDefault(false);
+            new Program();
 
             if (args == null || args.Length == 0)
                 args = new string[] { "" };
 
-            string modulo = args[0].ToLower();
-            bool requireLogin = modulo.Equals("onlector")? false : 
-                modulo.Equals("updateddbb")? false : 
-                true;
-
-            if (!StartProgram(requireLogin))
+            if (!StartProgram())
             {
                 MessageBox.Show("Error al iniciar", "¡Error FATAL!");
                 Close();
@@ -67,11 +58,12 @@ namespace Aplicacion
             }
         }
 
-        private static bool StartProgram(bool requestlogin)
-        {           
-            Splash splash = new Splash();
-            //splash.TopMost = true;
-            splash.StartPosition = FormStartPosition.CenterScreen;
+        private static bool StartProgram()
+        {
+            Splash splash = new Splash
+            {
+                StartPosition = FormStartPosition.CenterScreen
+            };
             splash.Show();
 
             splash.SetVersion(splash.GetType().Assembly.GetName().Version.ToString());
@@ -92,7 +84,7 @@ namespace Aplicacion
 
             Conf = new Configuracion();
             Conf.Load();
-                       
+
             splash.SetProgress(30);
             splash.SetInfo("Cargando Usuarios");
             splash.Update();
@@ -101,12 +93,13 @@ namespace Aplicacion
             if (DbContext.Usuarios.Count() == 0)
             {
                 MessageBox.Show("El sistema no encontro ningun usuario para ser utilizado. cree uno a continuación");
-                Vistas.Usuarios.Formulario form = new Vistas.Usuarios.Formulario();
-                form.Datos = new Usuario();
+                Vistas.Usuarios.Formulario form = new Vistas.Usuarios.Formulario
+                {
+                    Datos = new Usuario()
+                };
                 if (form.ShowDialog() == DialogResult.Yes)
                 {
-                    DbContext.Usuarios.Add(form.Datos);
-                    DbContext.SaveChanges();
+                    DbContext.Usuarios.Insert(form.Datos);
                 }
             }
 
@@ -114,34 +107,36 @@ namespace Aplicacion
             splash.SetInfo("Inicilizando");
             Task.Delay(100);
             splash.Update();
-            splash.Close();           
+            splash.Close();
 
             return true;
         }
 
         private static void SetupLector()
         {
-            string lectorUid;
-            if (!new Fingerprint.FingerReader().AvailableDevice(out lectorUid))
+            if (!new Fingerprint.FingerReader().AvailableDevice(out string lectorUid))
             {
-                Debug.Log(ELogType.Warning, "No se encontro el lector biometrico U.A.R.E Fingerprint 4500");
+                Debug.Log("No se encontro el lector biometrico U.A.R.E Fingerprint 4500");
             }
             else
             {
-                Debug.Log(ELogType.Info, "Se detecto un lector UID:{0}", lectorUid);
-            }            
+                Debug.Log($"Se detecto un lector UID:{lectorUid}");
+            }
         }
 
         private Program()
         {
-            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-            timer.Interval = 10;
-            timer.Tick += (o, e) => EventUpdate?.Invoke();
+            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer
+            {
+                Interval = 10
+            };
+            timer.Tick += (o, e) => UpdateEvent?.Invoke();
             timer.Start();
         }
 
         internal static void UpdateDDBB()
         {
+            /*
             Form form = new Form();
             form.TopMost = true;
             form.Text = "Actualizando Control Biometrico";
@@ -167,12 +162,12 @@ namespace Aplicacion
             finally
             {
                 Close();
-            }
+            }*/
         }
 
         internal static bool ExistDDBB()
         {
-            return DbContext.Database.Exists();
+            return true;
         }
 
         internal static void Close()

@@ -7,12 +7,12 @@ namespace Aplicacion.Vistas
         public Consola()
         {
             InitializeComponent();
-            Program.EventUpdate += OnUpdate;
+            Program.UpdateEvent += OnUpdate;
         }
 
         private void OnUpdate()
         {
-            _txtLog.Lines = Program.Debug.GetLog(100);
+            _txtLog.Lines = Program.Debug.GetLogs();
         }
     }
 }

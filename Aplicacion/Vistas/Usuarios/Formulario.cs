@@ -1,6 +1,5 @@
-﻿using System;
-using System.Windows.Forms;   
-using Aplicacion.UI;
+﻿using Aplicacion.UI;
+using System.Windows.Forms;
 
 namespace Aplicacion.Vistas.Usuarios
 {
@@ -39,8 +38,8 @@ namespace Aplicacion.Vistas.Usuarios
         }
 
         private void Save()
-        { 
-            if(!_txtEmail.IsEmail())
+        {
+            if (!_txtEmail.IsEmail())
             {
                 MessageBox.Show("Email invalido");
                 return;
@@ -48,7 +47,7 @@ namespace Aplicacion.Vistas.Usuarios
 
             _datos.Nombre = _txtNombre.Text;
             _datos.Email = _txtEmail.Text;
-            _datos.Clave = _txtClave.Text;   
+            _datos.Clave = _txtClave.Text;
             DialogResult = DialogResult.Yes;
         }
 

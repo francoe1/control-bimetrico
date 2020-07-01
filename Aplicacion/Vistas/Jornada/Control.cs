@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Data.Entity;
-using System;
-using System.Linq;
 
 namespace Aplicacion.Vistas.Jornada
 {
@@ -23,38 +20,40 @@ namespace Aplicacion.Vistas.Jornada
                 return;
 
             int id = (int)_table.Rows[e.RowIndex].Cells[0].Value;
-            Formulario form = new Formulario();
-            form.Datos = Program.DbContext.Jornadas.Where(x => x.Id == id).Single();
+            Formulario form = new Formulario
+            {
+                Datos = Program.DbContext.Jornadas.FindById(id)
+            };
             if (form.ShowDialog() == DialogResult.Yes)
             {
-                Program.DbContext.SaveChanges();
+                Program.DbContext.Jornadas.Update(form.Datos);
                 ActualizarTable();
             }
         }
 
         private void OnNuevo()
         {
-            Formulario form = new Formulario();
-            form.Datos = new Datos.Jornada();
-            if(form.ShowDialog() == DialogResult.Yes)
+            Formulario form = new Formulario
             {
-                Program.DbContext.Jornadas.Add(form.Datos);
-                Program.DbContext.SaveChanges();
+                Datos = new Datos.Jornada()
+            };
+            if (form.ShowDialog() == DialogResult.Yes)
+            {
+                Program.DbContext.Jornadas.Insert(form.Datos);
                 ActualizarTable();
             }
         }
 
-        public async void ActualizarTable()
+        public void ActualizarTable()
         {
             _table.Rows.Clear();
             _table.Rows.Add("Cargando datos ...");
-            List<Datos.Jornada> jornadas = await Program.DbContext.Jornadas.ToListAsync();
+            IEnumerable<Datos.Jornada> jornadas = Program.DbContext.Jornadas.FindAll();
             _table.Rows.Clear();
-            jornadas.ForEach(x => _table.Rows.Add(
-                x.Id,
-                x.Nombre,
-                x.Lunes + x.Martes + x.Miercoles + x.Jueves + x.Viernes + x.Sabado + x.Domingo
-            ));
+
+            foreach (Datos.Jornada x in jornadas)
+                _table.Rows.Add(x.Id, x.Nombre,
+                    x.Lunes + x.Martes + x.Miercoles + x.Jueves + x.Viernes + x.Sabado + x.Domingo);
         }
     }
 }

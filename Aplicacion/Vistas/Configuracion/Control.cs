@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Threading;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Aplicacion.Vistas.Configuracion
 {
@@ -22,7 +14,9 @@ namespace Aplicacion.Vistas.Configuracion
             _btnBuscarSonidoFinalizacion.Click += (o, e) => BuscarSonidoFin();
             _btnProbarSonido.Click += (o, e) => ProbarSonido();
             _btnGuardarAudio.Click += (o, e) => GuardarAudio();
-            _btnGuardar.Click += (o, e) => Guardar(); 
+            _btnGuardar.Click += (o, e) => Guardar();
+
+            m_txtDatabaseLocation.Text = Program.DbContext.DataBaseLocation;
         }
 
         private void Guardar()
@@ -126,11 +120,13 @@ namespace Aplicacion.Vistas.Configuracion
 
         public string BuscarArchivoAudio()
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "Window Sound | *.wav";
-            dialog.Multiselect = false;
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                Filter = "Window Sound | *.wav",
+                Multiselect = false
+            };
 
-            if(dialog.ShowDialog() == DialogResult.OK)
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
                 return dialog.FileName;
             }

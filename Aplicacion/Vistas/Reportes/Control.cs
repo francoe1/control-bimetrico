@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity;
-using System.Windows.Forms;
+﻿using Aplicacion.Datos;
 using FastReporter;
 using FastReporter.Minimalist;
-using Aplicacion.Datos;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Aplicacion.Vistas.Reportes
 {
@@ -22,11 +17,11 @@ namespace Aplicacion.Vistas.Reportes
             button1.Click += (o, e) => OnReporteGeneral();
             for (int i = 0; i < _chlFiltros.Items.Count; i++)
                 _chlFiltros.SetItemChecked(i, true);
-            
-            _cbxEmpleados.DataSource = Program.DbContext.Empleado.ToList();
+
+            _cbxEmpleados.DataSource = Program.DbContext.Empleado.FindAll().ToList();
             _cbxEmpleados.ValueMember = "Id";
             _cbxEmpleados.DisplayMember = "DisplayMember";
-            
+
             _chbTodos.CheckedChanged += (o, e) =>
             {
                 _cbxEmpleados.Enabled = !_chbTodos.Checked;
@@ -37,42 +32,12 @@ namespace Aplicacion.Vistas.Reportes
 
         protected override void OnVisibleChanged(EventArgs e)
         {
-            if(Visible)
+            if (Visible)
             {
                 _dtpInicio.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
                 _dtpEnd.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
                 _dtpEnd.Value = _dtpEnd.Value.AddHours(23);
             }
-        }
-
-        private void _OnReporteGeneral()
-        {
-            HtmlPage page = new HtmlPage("Reporte General");
-            page.SetStyle("padding:10px");
-            page.Append(new HtmlItem(HtmlTag.h5, "Reportes general de usuarios"));
-
-            List<Datos.Empleado> data = Program.DbContext
-               .Empleado
-               .Include(x => x.RegistrosHorario)
-               .Include(x => x.Jornada)
-               .ToList();
-
-            foreach(Datos.Empleado empleado in data)
-            {
-                page.Append(new HtmlItem(HtmlTag.h1, empleado.Nombre));                
-
-                foreach(Datos.RegistroHorario registro in empleado.RegistrosHorario)
-                {
-                    if (!registro.Salida.HasValue || !registro.Entrada.HasValue)
-                        continue;
-
-                    TimeSpan time = registro.Salida.Value - registro.Entrada.Value;
-                    page.Append(new HtmlItem(HtmlTag.p, registro.Entrada + "/" + registro.Salida + "(" + ParseTimeSpan(time) + ")"));
-
-                }
-            }
-
-            page.Visualize();
         }
 
         private void OnReporteGeneral()
@@ -83,27 +48,24 @@ namespace Aplicacion.Vistas.Reportes
 
             foreach (Datos.Empleado empleado in Program.DbContext
                 .Empleado
-                .Include(x => x.RegistrosHorario)
-                .Include(x => x.Jornada)
-                .Where(x => x.Id == (!_chbTodos.Checked? (int)_cbxEmpleados.SelectedValue : x.Id))
-                .ToList())
+                .Find(x => x.Id == (!_chbTodos.Checked ? (int)_cbxEmpleados.SelectedValue : x.Id)))
             {
+
+                IEnumerable<DatosBiometrico> datosBiometricos = Program.DbContext.DatosBiometricos.Find(x => x.EmpladoId == empleado.Id);
+                IEnumerable<Datos.RegistroHorario> registros = Program.DbContext.RegistroHorarios.Find(x => x.EmpladoId == empleado.Id);
+
                 page.Append(new HtmlItem(HtmlTag.h3, empleado.Nombre + " " + empleado.Apellido));
                 if (empleado.Jornada != null)
                 {
                     DateTime start = _dtpInicio.Value.Date;
                     DateTime end = _dtpEnd.Value.Date.AddDays(1);
-                    page.Append(HtmlRegistroHorario(empleado
-                        .RegistrosHorario
-                        .Where(x => x.Entrada > start && x.Salida < end)
-                        .ToList(),
-                        empleado.Jornada));
+                    page.Append(HtmlRegistroHorario(registros.Where(x => x.Entrada > start && x.Salida < end).ToList(), empleado.Jornada));
                 }
                 else
                 {
                     page.Append(new HtmlItem(HtmlTag.h1, "Empleado no tiene una jornada Asignada"));
                 }
-                page.Append(new HtmlItem(HtmlTag.hr));             
+                page.Append(new HtmlItem(HtmlTag.hr));
             }
             page.Visualize();
         }
@@ -136,12 +98,12 @@ namespace Aplicacion.Vistas.Reportes
                 totalHours += hours;
 
                 table.AddRow(
-                    date.ToShortDateString(), 
+                    date.ToShortDateString(),
                     group.Count(),
-                    ParseTimeSpan(hours) + "/"+ jordana.GetHoras(date.DayOfWeek),
+                    ParseTimeSpan(hours) + "/" + jordana.GetHoras(date.DayOfWeek),
                     ParseTimeSpan(horasExtras));
 
-                if(horasExtras.TotalSeconds > 0)
+                if (horasExtras.TotalSeconds > 0)
                 {
                     hours -= horasExtras;
                     ganancias += hours.TotalHours * (double)jordana.PrecioNormal;
@@ -150,8 +112,8 @@ namespace Aplicacion.Vistas.Reportes
                 }
             }
 
-            if(_chlFiltros.GetItemChecked(0))
-                page.Append(new HtmlInfoField { Text = "Total horas normal", Value = ParseTimeSpanHours(totalHours)});
+            if (_chlFiltros.GetItemChecked(0))
+                page.Append(new HtmlInfoField { Text = "Total horas normal", Value = ParseTimeSpanHours(totalHours) });
             if (_chlFiltros.GetItemChecked(1))
                 page.Append(new HtmlInfoField { Text = "Total horas extras", Value = ParseTimeSpanHours(totalHoursExtas) });
             if (_chlFiltros.GetItemChecked(2))
@@ -165,21 +127,21 @@ namespace Aplicacion.Vistas.Reportes
             if (_chlFiltros.GetItemChecked(4))
                 page.Append(new HtmlInfoField { Text = "Dias Trabajados", Value = dias });
 
-            if(_chbRegistros.Checked)
+            if (_chbRegistros.Checked)
                 page.Append(table);
             return page;
-        }        
+        }
 
         private string ParseTimeSpan(TimeSpan time)
         {
             string result = "";
-            result += $"{((int)time.TotalHours).ToString("D2")}:{time.Minutes.ToString("D2")}:{time.Seconds.ToString("D2")}";
+            result += $"{(int)time.TotalHours:D2}:{time.Minutes:D2}:{time.Seconds:D2}";
             return result;
         }
 
         private string ParseTimeSpanHours(TimeSpan time)
         {
-            return $"{(int)time.TotalHours}:{time.Minutes.ToString("D2")}";
+            return $"{(int)time.TotalHours}:{time.Minutes:D2}";
         }
     }
 }

@@ -1,9 +1,5 @@
 ﻿using Aplicacion.Datos;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 using System.Windows.Forms;
-using System;
 
 namespace Aplicacion.Vistas.Usuarios
 {
@@ -22,10 +18,10 @@ namespace Aplicacion.Vistas.Usuarios
 
                 Formulario form = new Formulario();
                 int id = (int)_table.Rows[e.RowIndex].Cells[0].Value;
-                form.Datos = Program.DbContext.Usuarios.Where(x => x.Id == id).Single();
+                form.Datos = Program.DbContext.Usuarios.FindById(id);
                 if (form.ShowDialog() == DialogResult.Yes)
                 {
-                    Program.DbContext.SaveChanges();
+                    Program.DbContext.Usuarios.Update(form.Datos);
                     UpdateTable();
                 }
             };
@@ -46,32 +42,28 @@ namespace Aplicacion.Vistas.Usuarios
                 == DialogResult.Yes)
             {
                 int id = (int)_table.SelectedRows[0].Cells[0].Value;
-                Program.DbContext.Usuarios.Remove(Program.DbContext.Usuarios
-                    .Where(x => x.Id == id)
-                    .Single());
-                Program.DbContext.SaveChanges();
+                Program.DbContext.Usuarios.Delete(id);
                 UpdateTable();
             }
         }
 
-        private async void UpdateTable()
+        private void UpdateTable()
         {
             _table.Rows.Clear();
-            using (DataContext context = new DataContext())
-            {
-                List<Usuario> datos = await context.Usuarios.ToListAsync();                
-                datos.ForEach(x => _table.Rows.Add(x.Id, x.Nombre, x.Email, x.Clave));
-            }
+
+            foreach (Usuario usuario in Program.DbContext.Usuarios.FindAll())
+                _table.Rows.Add(usuario.Id, usuario.Nombre, usuario.Email, usuario.Clave);
         }
 
         private void OnNuevo()
         {
-            Formulario form = new Formulario();
-            form.Datos = new Datos.Usuario();
-            if(form.ShowDialog() != DialogResult.Cancel)
+            Formulario form = new Formulario
             {
-                Program.DbContext.Usuarios.Add(form.Datos);
-                Program.DbContext.SaveChanges();
+                Datos = new Usuario()
+            };
+            if (form.ShowDialog() != DialogResult.Cancel)
+            {
+                Program.DbContext.Usuarios.Insert(form.Datos);
                 UpdateTable();
             }
         }

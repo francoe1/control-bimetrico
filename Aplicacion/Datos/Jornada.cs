@@ -35,7 +35,7 @@ namespace Aplicacion.Datos
                 return (double)Domingo;
 
             return 0;
-            
+
 
         }
     }

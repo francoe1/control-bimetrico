@@ -14,13 +14,13 @@ namespace Aplicacion.Vistas
         public Reportes.Control ReporteControl { get; private set; }
         public Jornada.Control JornadaControl { get; private set; }
         public Configuracion.Control ConfiguracionControl { get; private set; }
-        
+
         public InicioForm()
-        {   
+        {
             InitializeComponent();
 
             FX = new Efectos();
-            MainMenu = new MenuControl(_panelControls);    
+            MainMenu = new MenuControl(_panelControls);
             UsuarioControl = new Usuarios.Control();
             EmpleadoControl = new Empleado.Control();
             RegistroHorarioControl = new RegistroHorario.Control();
@@ -35,7 +35,7 @@ namespace Aplicacion.Vistas
             FX.Add(_btnJornada, conf);
             FX.Add(_btnConsola, conf);
             FX.Add(_btnConfiguracion, conf);
-            FX.Add(_btnSalir, conf);     
+            FX.Add(_btnSalir, conf);
 
             MainMenu.SetTitleLabel(_lblTitle);
             MainMenu.Link("RegistroHorario", RegistroHorarioControl);
@@ -48,9 +48,9 @@ namespace Aplicacion.Vistas
             MainMenu.HideAll();
             _btnConsola.Click += (o, e) => { new Consola().Show(); };
             _btnSalir.Click += (o, e) => Close();
-            Program.EventUpdate += FX.Update;
+            Program.UpdateEvent += FX.Update;
         }
-            
+
         protected override CreateParams CreateParams
         {
             get

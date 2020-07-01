@@ -6,9 +6,9 @@
         {
             Pulgar,
             Indice,
-            Medio, 
+            Medio,
             Anula,
-            Menique                
+            Menique
         }
 
         public enum ERegistroEstado : int

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.Entity;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using Aplicacion.Datos;
 using DPFP;
-using Aplicacion.Datos;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Aplicacion.Vistas.Lector
 {
@@ -40,48 +35,45 @@ namespace Aplicacion.Vistas.Lector
         {
             try
             {
-                Program.Debug.Log(ELogType.Info, "Se capturo un dato biometrico");
-
-                List<Datos.Empleado> empleados = Program.DbContext.Empleado
-                       .Include(x => x.DatosBiometricos)
-                       .Include(x => x.RegistrosHorario)
-                       .ToList();
+                Program.Debug.Log("Se capturo un dato biometrico");
 
                 bool fingerFind = false;
 
-                foreach (Datos.Empleado empleado in empleados)
+                foreach (Datos.Empleado empleado in Program.DbContext.Empleado.FindAll())
                 {
-                    if (empleado.DatosBiometricos == null || empleado.DatosBiometricos.Count == 0)
-                        continue;
-
+                    IEnumerable<DatosBiometrico> datosBiometricos = Program.DbContext.DatosBiometricos.Find(x => x.EmpladoId == empleado.Id);
+                    IEnumerable<Datos.RegistroHorario> registros = Program.DbContext.RegistroHorarios.Find(x => x.EmpladoId == empleado.Id);
                     List<byte[]> datos = new List<byte[]>();
-                    empleado.DatosBiometricos.ForEach(x => datos.Add(x.Data));
+
+                    foreach (DatosBiometrico biometrico in datosBiometricos)
+                        datos.Add(biometrico.Data);
 
                     if (reader.Verify(sample, datos.ToList()))
                     {
-                        Program.Debug.Log(ELogType.Info, "Macheo de datos con empleado {0} {1}",
-                            empleado.Nombre, empleado.Apellido);
+                        Program.Debug.Log($"Macheo de datos con empleado {empleado.Nombre} {empleado.Apellido}");
 
-                        if (empleado.RegistrosHorario.Where(x => x.Estado == Enums.ERegistroEstado.Abierto).Count() == 1)
+                        Datos.RegistroHorario openRegister = registros.Take(1).SingleOrDefault(x => x.Estado == Enums.ERegistroEstado.Abierto);
+
+                        if (openRegister is object)
                         {
-                            Datos.RegistroHorario reg = empleado.RegistrosHorario.Where(x => x.Estado == Enums.ERegistroEstado.Abierto).Single();
-                            reg.Salida = DateTime.Now;
-                            reg.Estado = Enums.ERegistroEstado.Cerrado;
-
-                            Program.Debug.Log(ELogType.Info, "Se cerro el turno {0}", reg.Id);
+                            openRegister.Salida = DateTime.Now;
+                            openRegister.Estado = Enums.ERegistroEstado.Cerrado;
+                            Program.Debug.Log($"Se cerro el turno {openRegister.Id}");
+                            Program.DbContext.RegistroHorarios.Update(openRegister);
                             Tools.Audio.PlayAudio(Program.Conf.AudioFingerprintFin);
                         }
                         else
                         {
                             Datos.RegistroHorario reg = new Datos.RegistroHorario
                             {
+                                EmpladoId = empleado.Id,
                                 Entrada = DateTime.Now,
                                 Estado = Enums.ERegistroEstado.Abierto
                             };
 
-                            empleado.RegistrosHorario.Add(reg);
+                            Program.DbContext.RegistroHorarios.Insert(reg);
 
-                            Program.Debug.Log(ELogType.Info, "Se abrio un nuevo turno");
+                            Program.Debug.Log("Se abrio un nuevo turno");
                             Tools.Audio.PlayAudio(Program.Conf.AudioFingerprintInicio);
                         }
                         fingerFind = true;
@@ -91,12 +83,10 @@ namespace Aplicacion.Vistas.Lector
 
                 if (!fingerFind)
                     Tools.Audio.PlayAudio(Program.Conf.AudioFingerprintIncorrecto);
-
-                Program.DbContext.SaveChanges();
             }
             catch (Exception ex)
             {
-                Program.Debug.Log(ELogType.Error, "Error verificando datos biometrico " + ex.Message + Environment.NewLine + ex.StackTrace);
+                Program.Debug.Log("Error verificando datos biometrico " + ex.Message + Environment.NewLine + ex.StackTrace);
             }
         }
 
@@ -108,7 +98,7 @@ namespace Aplicacion.Vistas.Lector
             _btnStart.Enabled = true;
             reader.StopCapture();
 
-            Program.Debug.Log(ELogType.Info, "Se detuvo el lector");
+            Program.Debug.Log("Se detuvo el lector");
         }
 
         private void OnStart()
@@ -119,7 +109,7 @@ namespace Aplicacion.Vistas.Lector
             _btnStart.Enabled = false;
             reader.StartCapture();
 
-            Program.Debug.Log(ELogType.Info, "Se inicio el lector");
+            Program.Debug.Log("Se inicio el lector");
         }
 
         private void OnConsole()

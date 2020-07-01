@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Aplicacion.Vistas.RegistroHorario
 {
     public partial class Formulario : Form
     {
-        private Datos.RegistroHorario _datos { get; set;}
+        private Datos.RegistroHorario _datos { get; set; }
         public Datos.RegistroHorario Datos
         {
             get
@@ -25,10 +18,10 @@ namespace Aplicacion.Vistas.RegistroHorario
                 _cbxEstado.DataSource = Enum.GetNames(typeof(Datos.Enums.ERegistroEstado));
                 _cbxEstado.SelectedIndex = (int)_datos.Estado;
 
-                if(_datos.Entrada != null)
+                if (_datos.Entrada != null)
                     _dtpEntrada.Value = (DateTime)_datos.Entrada;
 
-                if(_datos.Salida != null)
+                if (_datos.Salida != null)
                     _dtpSalida.Value = (DateTime)_datos.Salida;
             }
         }

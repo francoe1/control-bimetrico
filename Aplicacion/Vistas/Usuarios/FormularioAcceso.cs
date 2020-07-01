@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows.Forms;
 
 namespace Aplicacion.Vistas.Usuarios
@@ -31,8 +30,8 @@ namespace Aplicacion.Vistas.Usuarios
 
         private void OnEntrar()
         {
-            bool exist = Program.DbContext.Usuarios.Where(x => x.Nombre == _txtUser.Text && x.Clave == _txtClave.Text).Count() > 0;
-            if(!exist)
+            bool exist = Program.DbContext.Usuarios.Find(x => x.Nombre == _txtUser.Text && x.Clave == _txtClave.Text).Count() > 0;
+            if (!exist)
             {
                 MessageBox.Show("Usuario invalido");
                 return;

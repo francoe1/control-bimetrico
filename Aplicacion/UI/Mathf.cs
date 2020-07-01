@@ -5,12 +5,12 @@ namespace Aplicacion.UI
     public static class Mathf
     {
         public static int LerpInt(int current, int target, int time)
-        {                        
+        {
             if (target - current > 0)
             {
                 if (current + time > target)
                     return current;
-               return current + time;
+                return current + time;
             }
 
             if (target - current < 0)
@@ -25,7 +25,7 @@ namespace Aplicacion.UI
 
         public static Color LerpColor(Color current, Color target, int time)
         {
-            if (current == target) return current;     
+            if (current == target) return current;
             int a = LerpInt(current.A, target.A, time);
             int r = LerpInt(current.R, target.R, time);
             int g = LerpInt(current.G, target.G, time);

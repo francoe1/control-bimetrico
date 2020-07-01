@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace Aplicacion.Tools
 {
     public static class Audio
     {
-        private static System.Media.SoundPlayer WavPlayer { get; set; }
-
         public static void PlayAudio(string file)
         {
             if (!File.Exists(file))

@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Data.Entity;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Aplicacion.Vistas.RegistroHorario
 {
@@ -37,16 +32,15 @@ namespace Aplicacion.Vistas.RegistroHorario
 
         private void OnNuevo()
         {
-            Formulario form = new Formulario();
-            form.Datos = new Aplicacion.Datos.RegistroHorario();
+            Formulario form = new Formulario
+            {
+                Datos = new Datos.RegistroHorario()
+            };
             if (form.ShowDialog() == DialogResult.Yes)
             {
-                Datos.Empleado empleado = Program.DbContext.Empleado
-                    .Where(x => x.Id == Datos.Id)
-                    .Single();                
-                empleado.RegistrosHorario.Add(form.Datos);
-                Program.DbContext.SaveChanges();
-
+                Datos.Empleado empleado = Program.DbContext.Empleado.FindById(Datos.Id);
+                form.Datos.EmpladoId = empleado.Id;
+                Program.DbContext.RegistroHorarios.Insert(form.Datos);
                 UpdateTable();
             }
         }
@@ -57,18 +51,13 @@ namespace Aplicacion.Vistas.RegistroHorario
                 return;
 
             int id = (int)_table.Rows[e.RowIndex].Cells[0].Value;
-            Datos.RegistroHorario reg = Program.DbContext.Empleado.Where(x => x.Id == Datos.Id)
-                .Include(x => x.RegistrosHorario)
-                .Single()
-                .RegistrosHorario
-                .Where(x => x.Id == id)
-                .Single();
-
-            Formulario form = new Formulario();
-            form.Datos = reg;
-            if(form.ShowDialog() == DialogResult.Yes)
+            Formulario form = new Formulario
             {
-                Program.DbContext.SaveChanges();
+                Datos = Program.DbContext.RegistroHorarios.FindById(id)
+            };
+            if (form.ShowDialog() == DialogResult.Yes)
+            {
+                Program.DbContext.RegistroHorarios.Update(form.Datos);
                 UpdateTable();
             }
         }
@@ -77,22 +66,18 @@ namespace Aplicacion.Vistas.RegistroHorario
         {
             _table.Rows.Clear();
 
-            Program.DbContext.Empleado
-            .Where(x => x.Id == _datos.Id)
-            .Include(x => x.RegistrosHorario)
-            .ToList()
-            .Single()
-            .RegistrosHorario
-            .Take(Program.Conf.MaxRegistros)
-            .ToList()
-            .ForEach(x =>
+            foreach (var registro in Program.DbContext
+                .RegistroHorarios
+                .Find(x => x.EmpladoId == Datos.Id)
+                .Take(Program.Conf.MaxRegistros)
+                .OrderByDescending(x => x.Entrada))
             {
                 double minutes = 0;
-                if (x.Salida != null && x.Entrada != null)
-                    minutes = Math.Round((x.Salida - x.Entrada).Value.TotalMinutes, 2);
+                if (registro.Salida != null && registro.Entrada != null)
+                    minutes = Math.Round((registro.Salida - registro.Entrada).Value.TotalMinutes, 2);
 
-                _table.Rows.Add(x.Id, x.Entrada, x.Salida, minutes, x.Estado);
-            });
+                _table.Rows.Add(registro.Id, registro.Entrada, registro.Salida, minutes, registro.Estado);
+            }
         }
     }
 }

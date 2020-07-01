@@ -48,9 +48,8 @@ namespace Aplicacion.Vistas
         public static extern int DwmIsCompositionEnabled(ref int pfEnabled);
 
         private bool m_aeroEnabled;                     // variables for box shadow
-        private const int CS_DROPSHADOW = 0x00020000;
-        private const int WM_NCPAINT = 0x0085;
-        private const int WM_ACTIVATEAPP = 0x001C;
+        private const int m_cS_DROPSHADOW = 0x00020000;
+        private const int m_wM_NCPAINT = 0x0085;
 
         public struct MARGINS                           // struct for box shadow
         {
@@ -60,9 +59,9 @@ namespace Aplicacion.Vistas
             public int bottomHeight;
         }
 
-        private const int WM_NCHITTEST = 0x84;          // variables for dragging the form
-        private const int HTCLIENT = 0x1;
-        private const int HTCAPTION = 0x2;
+        private const int m_wM_NCHITTEST = 0x84;          // variables for dragging the form
+        private const int m_hTCLIENT = 0x1;
+        private const int m_hTCAPTION = 0x2;
 
         protected override CreateParams CreateParams
         {
@@ -72,7 +71,7 @@ namespace Aplicacion.Vistas
 
                 CreateParams cp = base.CreateParams;
                 if (!m_aeroEnabled)
-                    cp.ClassStyle |= CS_DROPSHADOW;
+                    cp.ClassStyle |= m_cS_DROPSHADOW;
 
                 return cp;
             }
@@ -84,7 +83,7 @@ namespace Aplicacion.Vistas
             {
                 int enabled = 0;
                 DwmIsCompositionEnabled(ref enabled);
-                return (enabled == 1) ? true : false;
+                return (enabled == 1);
             }
             return false;
         }
@@ -93,7 +92,7 @@ namespace Aplicacion.Vistas
         {
             switch (m.Msg)
             {
-                case WM_NCPAINT:                        // box shadow
+                case m_wM_NCPAINT:                        // box shadow
                     if (m_aeroEnabled)
                     {
                         var v = 2;
@@ -114,8 +113,8 @@ namespace Aplicacion.Vistas
             }
             base.WndProc(ref m);
 
-            if (m.Msg == WM_NCHITTEST && (int)m.Result == HTCLIENT)     // drag the form
-                m.Result = (IntPtr)HTCAPTION;
+            if (m.Msg == m_wM_NCHITTEST && (int)m.Result == m_hTCLIENT)     // drag the form
+                m.Result = (IntPtr)m_hTCAPTION;
 
         }
     }

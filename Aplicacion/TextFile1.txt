@@ -1,3 +1,7 @@
 ﻿5/11/18 ---- OK -----Fecha de inicio de reporte
 5/11/18 --- (NO SOLUCIONADO) --- Redondeo para arriba
 5/11/18 ---- OK ---- Ver incio FOrm 
+
+------ 1-07-2020
+Se actualizo el codigo, se hizo un mantenimiento general.
+Se migro de SQL Server a LiteDB

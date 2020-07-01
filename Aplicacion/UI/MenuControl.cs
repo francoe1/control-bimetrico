@@ -22,7 +22,7 @@ namespace Aplicacion.UI
             _titleStartText = label.Text + " ";
         }
 
-        public void SetTitleText(string value, bool userStartText = true)
+        public void SetTitleText(string value)
         {
             if (_titleLabel != null)
                 _titleLabel.Text = _titleStartText + value.ToUpper();
@@ -60,8 +60,6 @@ namespace Aplicacion.UI
 
         public void HideControl(string name)
         {
-            if (_controls[name].Visible) 
-                Program.Debug.Log(ELogType.Info, "Ocultando " + name);
             _controls[name].Visible = false;
         }
 
@@ -69,7 +67,6 @@ namespace Aplicacion.UI
         {
             HideAll();
             _controls[name].Visible = true;
-            Program.Debug.Log(ELogType.Info, "Cambiar a " + name);
 
             if (_titleLabel != null)
                 _titleLabel.Text = _titleStartText + name.ToUpper();
