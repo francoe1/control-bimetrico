@@ -15,9 +15,9 @@ namespace Aplicacion.Vistas.Jornada
             }
         }
 
-        public Datos.Jornada _datos { get; set; }
+        public AppData.Jornada _datos { get; set; }
 
-        public Datos.Jornada Datos
+        public AppData.Jornada Datos
         {
             get
             {

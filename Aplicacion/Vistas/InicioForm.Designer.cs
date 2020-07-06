@@ -239,7 +239,6 @@
             this._btnConsola.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._btnConsola.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this._btnConsola.UseVisualStyleBackColor = false;
-            this._btnConsola.Visible = false;
             // 
             // _btnConfiguracion
             // 

@@ -67,7 +67,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::Aplicacion.Properties.Resources.Formulario_Icon;
+            this.pictureBox1.Image = global::App.Properties.Resources.Formulario_Icon;
             this.pictureBox1.Location = new System.Drawing.Point(14, 16);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(28, 25);

@@ -8,24 +8,23 @@ namespace Aplicacion.UI
     public class Efectos
     {
         private List<Efectos> Items { get; set; } = new List<Efectos>();
-        public System.Windows.Forms.Control UIControl { get; set; }
+        public Control UIControl { get; set; }
 
         private Color tmpColor { get; set; }
         public ConfigurationFX Conf { get; set; }
 
         public Efectos() { }
 
-        private Efectos(System.Windows.Forms.Control control, ConfigurationFX conf)
+        private Efectos(Control control, ConfigurationFX conf)
         {
             UIControl = control;
 
             Conf = conf;
-            if (Conf.ColorNormal == default(Color))
+            if (Conf.ColorNormal == default)
                 Conf.ColorNormal = UIControl.BackColor;
 
-            if (UIControl is Button)
+            if (UIControl is Button btn)
             {
-                Button btn = (Button)UIControl;
                 Conf.ColorHover = btn.FlatAppearance.MouseOverBackColor;
                 Conf.ColorActivo = btn.FlatAppearance.MouseDownBackColor;
             }
@@ -42,7 +41,7 @@ namespace Aplicacion.UI
             Items.ForEach(x => x.UpdateEffect());
         }
 
-        public Efectos Add(System.Windows.Forms.Control control, ConfigurationFX conf)
+        public Efectos Add(Control control, ConfigurationFX conf)
         {
             Items.Add(new Efectos(control, new ConfigurationFX
             {

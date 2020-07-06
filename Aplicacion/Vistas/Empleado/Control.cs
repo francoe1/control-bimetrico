@@ -1,4 +1,5 @@
 ﻿using Aplicacion.Vistas.RegistroHorario;
+using AppData;
 using System.Windows.Forms;
 
 namespace Aplicacion.Vistas.Empleado
@@ -30,7 +31,7 @@ namespace Aplicacion.Vistas.Empleado
                 == DialogResult.Yes)
             {
                 int id = (int)_table.SelectedRows[0].Cells[0].Value;
-                Program.DbContext.Empleado.Delete(id);
+                DataContext.Current.Empleado.Delete(id);
                 //Program.DbContext.SaveChanges();
                 UpdateTable();
             }
@@ -45,7 +46,7 @@ namespace Aplicacion.Vistas.Empleado
             }
 
             int id = (int)_table.SelectedRows[0].Cells[0].Value;
-            Datos.Empleado empleado = Program.DbContext.Empleado.FindById(id);
+            AppData.Empleado empleado = DataContext.Current.Empleado.FindById(id);
             Program.InicioForm.MainMenu.SwithTo("RegistroHorario");
             Program.InicioForm.MainMenu.SetTitleText($"{empleado.Nombre} {empleado.Apellido} > Registros");
             Program.InicioForm.RegistroHorarioControl.Datos = empleado;
@@ -58,12 +59,12 @@ namespace Aplicacion.Vistas.Empleado
             int id = (int)_table.Rows[e.RowIndex].Cells[0].Value;
             Formulario form = new Formulario
             {
-                Datos = Program.DbContext.Empleado.FindById(id)
+                Datos = DataContext.Current.Empleado.FindById(id)
             };
 
             if (form.ShowDialog() == DialogResult.Yes)
             {
-                Program.DbContext.Empleado.Update(form.Datos);
+                DataContext.Current.Empleado.Update(form.Datos);
                 UpdateTable();
             }
         }
@@ -73,7 +74,7 @@ namespace Aplicacion.Vistas.Empleado
             int currentSelect = (_table.SelectedRows.Count > 0) ? _table.SelectedRows[0].Index : 0;
             _table.Rows.Clear();
 
-            foreach (Datos.Empleado x in Program.DbContext.Empleado.FindAll())
+            foreach (AppData.Empleado x in DataContext.Current.Empleado.FindAll())
                 _table.Rows.Add(x.Id, x.Nombre, x.Apellido, x.Documento, x.Direccion, x.Telefono, x.Email);
 
             _table.ClearSelection();
@@ -85,11 +86,11 @@ namespace Aplicacion.Vistas.Empleado
         {
             Formulario form = new Formulario
             {
-                Datos = new Datos.Empleado()
+                Datos = new AppData.Empleado()
             };
             if (form.ShowDialog() != DialogResult.Cancel)
             {
-                Program.DbContext.Empleado.Insert(form.Datos);
+                DataContext.Current.Empleado.Insert(form.Datos);
                 UpdateTable();
             }
         }

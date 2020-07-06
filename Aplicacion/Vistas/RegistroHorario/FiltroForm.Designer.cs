@@ -89,7 +89,9 @@
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FiltroForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Filtro de Registros";
+            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 

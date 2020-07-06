@@ -40,6 +40,7 @@
             this._cblRegistrados = new System.Windows.Forms.CheckedListBox();
             this._btnCancelar = new System.Windows.Forms.Button();
             this.m_btnManual = new System.Windows.Forms.Button();
+            this.m_btn_delete = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._picHuella)).BeginInit();
@@ -59,7 +60,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::Aplicacion.Properties.Resources.HuellaDigital_Icon;
+            this.pictureBox1.Image = global::App.Properties.Resources.HuellaDigital_Icon;
             this.pictureBox1.Location = new System.Drawing.Point(11, 14);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(35, 30);
@@ -139,11 +140,10 @@
             // 
             // _cblRegistrados
             // 
-            this._cblRegistrados.Enabled = false;
             this._cblRegistrados.FormattingEnabled = true;
             this._cblRegistrados.Location = new System.Drawing.Point(278, 67);
             this._cblRegistrados.Name = "_cblRegistrados";
-            this._cblRegistrados.Size = new System.Drawing.Size(135, 229);
+            this._cblRegistrados.Size = new System.Drawing.Size(135, 199);
             this._cblRegistrados.Sorted = true;
             this._cblRegistrados.TabIndex = 7;
             this._cblRegistrados.TabStop = false;
@@ -175,6 +175,19 @@
             this.m_btnManual.UseVisualStyleBackColor = false;
             this.m_btnManual.Click += new System.EventHandler(this.m_btnManual_Click);
             // 
+            // m_btn_delete
+            // 
+            this.m_btn_delete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(45)))), ((int)(((byte)(55)))));
+            this.m_btn_delete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.m_btn_delete.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.m_btn_delete.ForeColor = System.Drawing.Color.White;
+            this.m_btn_delete.Location = new System.Drawing.Point(325, 272);
+            this.m_btn_delete.Name = "m_btn_delete";
+            this.m_btn_delete.Size = new System.Drawing.Size(88, 25);
+            this.m_btn_delete.TabIndex = 4;
+            this.m_btn_delete.Text = "Eliminar";
+            this.m_btn_delete.UseVisualStyleBackColor = false;
+            // 
             // Biometrico
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -184,6 +197,7 @@
             this.Controls.Add(this._progress);
             this.Controls.Add(this._picHuella);
             this.Controls.Add(this._btnCancelar);
+            this.Controls.Add(this.m_btn_delete);
             this.Controls.Add(this.m_btnManual);
             this.Controls.Add(this._btnCapturar);
             this.Controls.Add(this._chbManoDerecha);
@@ -218,5 +232,6 @@
         private System.Windows.Forms.CheckedListBox _cblRegistrados;
         private System.Windows.Forms.Button _btnCancelar;
         private System.Windows.Forms.Button m_btnManual;
+        private System.Windows.Forms.Button m_btn_delete;
     }
 }

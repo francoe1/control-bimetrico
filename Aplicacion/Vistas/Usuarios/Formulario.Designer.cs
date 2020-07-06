@@ -37,8 +37,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this._btnSave = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this._btnCancel = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this._btnCancel = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -143,6 +143,17 @@
             this.panel1.Size = new System.Drawing.Size(321, 40);
             this.panel1.TabIndex = 4;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Image = global::App.Properties.Resources.Formulario_Icon;
+            this.pictureBox1.Location = new System.Drawing.Point(10, 11);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(20, 18);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
             // _btnCancel
             // 
             this._btnCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(45)))), ((int)(((byte)(53)))));
@@ -155,21 +166,10 @@
             this._btnCancel.Location = new System.Drawing.Point(112, 123);
             this._btnCancel.Name = "_btnCancel";
             this._btnCancel.Size = new System.Drawing.Size(99, 23);
-            this._btnCancel.TabIndex = 3;
+            this._btnCancel.TabIndex = 5;
             this._btnCancel.TabStop = false;
             this._btnCancel.Text = "Cancelar";
             this._btnCancel.UseVisualStyleBackColor = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Image = global::Aplicacion.Properties.Resources.Formulario_Icon;
-            this.pictureBox1.Location = new System.Drawing.Point(10, 11);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(20, 18);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
             // 
             // Formulario
             // 

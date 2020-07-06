@@ -1,12 +1,13 @@
-﻿using System.Linq;
+﻿using AppData;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Aplicacion.Vistas.Empleado
 {
     public partial class Formulario : Form
     {
-        private Datos.Empleado _datos { get; set; }
-        public Datos.Empleado Datos
+        private AppData.Empleado _datos { get; set; }
+        public AppData.Empleado Datos
         {
             get
             {
@@ -33,7 +34,7 @@ namespace Aplicacion.Vistas.Empleado
             _btnCancelar.Click += (o, e) => OnCancel();
             _btnGuardar.Click += (o, e) => OnGuardar();
             _btnBiometrico.Click += (o, e) => OnBiometrico();
-            _cbxJornada.DataSource = Program.DbContext.Jornadas.FindAll().ToList();
+            _cbxJornada.DataSource = DataContext.Current.Jornadas.FindAll().ToList();
             _cbxJornada.DisplayMember = "Nombre";
             _cbxJornada.ValueMember = "Id";
         }
@@ -58,8 +59,11 @@ namespace Aplicacion.Vistas.Empleado
             _datos.Direccion = _txtDireccion.Text;
             _datos.Telefono = _txtTelefono.Text;
             _datos.Email = _txtEmail.Text;
-            int id = (int)_cbxJornada.SelectedValue;
-            _datos.Jornada = Program.DbContext.Jornadas.FindById(id);
+            if (_cbxJornada.SelectedValue is object)
+            {
+                int id = (int)_cbxJornada.SelectedValue;
+                _datos.Jornada = DataContext.Current.Jornadas.FindById(id);
+            }
             DialogResult = DialogResult.Yes;
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppData;
+using System;
 using System.IO;
 using System.Windows.Forms;
 
@@ -16,7 +17,7 @@ namespace Aplicacion.Vistas.Configuracion
             _btnGuardarAudio.Click += (o, e) => GuardarAudio();
             _btnGuardar.Click += (o, e) => Guardar();
 
-            m_txtDatabaseLocation.Text = Program.DbContext.DataBaseLocation;
+            m_txtDatabaseLocation.Text = DataContext.Current.DataBaseLocation;
         }
 
         private void Guardar()

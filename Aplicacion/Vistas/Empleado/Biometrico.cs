@@ -1,14 +1,13 @@
-﻿using Aplicacion.Datos;
+﻿using AppData;
 using System;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Aplicacion.Vistas.Empleado
 {
     public partial class Biometrico : Form
     {
-        private Datos.Empleado _datos { get; set; }
-        public Datos.Empleado Datos
+        private AppData.Empleado _datos { get; set; }
+        public AppData.Empleado Datos
         {
             get
             {
@@ -25,12 +24,24 @@ namespace Aplicacion.Vistas.Empleado
         {
             if (Datos is null) return;
             _cblRegistrados.Items.Clear();
-            foreach (DatosBiometrico x in Program.DbContext.DatosBiometricos.Find(x => x.EmpladoId == _datos.Id))
-                _cblRegistrados.Items.Add(x.Dedo + ((x.ManoDerecha) ? " Derecho" : " Izquierdo"));
+            foreach (DatosBiometrico x in DataContext.Current.DatosBiometricos.Find(x => x.EmpladoId == _datos.Id))
+                _cblRegistrados.Items.Add(new CbxItem { Id = x.Id, Dedo = x.Dedo, Derecha = x.ManoDerecha });
         }
 
         private bool m_isCapture = false;
         private Fingerprint.FingerWriter _scaner { get; set; }
+
+        public class CbxItem
+        {
+            public int Id { get; set; }
+            public Enums.EDedo Dedo { get; set; }
+            public bool Derecha { get; set; }
+
+            public override string ToString()
+            {
+                return $"{Dedo} | {(Derecha ? " Derecho" : " Izquierdo")}";
+            }
+        }
 
 
         protected override CreateParams CreateParams
@@ -48,10 +59,9 @@ namespace Aplicacion.Vistas.Empleado
         {
             InitializeComponent();
 
-
             _btnCapturar.Click += (o, e) =>
             {
-                OnStartCapture();
+                if (!OnStartCapture()) return;
 
                 if (!m_isCapture)
                 {
@@ -78,11 +88,19 @@ namespace Aplicacion.Vistas.Empleado
 
             _cbxDedo.DataSource = Enum.GetNames(typeof(Enums.EDedo));
             _btnCancelar.Click += (o, e) => OnCancelar();
+            m_btn_delete.Click += (o, e) => OnDeleteSelection();
         }
 
-        private void OnStartCapture()
+        private void OnDeleteSelection()
         {
-            if (_scaner is object) return;
+            foreach (CbxItem item in _cblRegistrados.CheckedItems)
+                DataContext.Current.DatosBiometricos.Delete(item.Id);
+            UpdateRegisters();
+        }
+
+        private bool OnStartCapture()
+        {
+            if (_scaner is object) return true;
 
             try
             {
@@ -91,10 +109,10 @@ namespace Aplicacion.Vistas.Empleado
             catch (Exception ex)
             {
                 MessageBox.Show("No se pueden capturar los datos biometricos en este momento \n" + ex.Message, "¡Atención!");
-                return;
+                return false;
             }
 
-            _scaner.OnStep += (step) =>
+            _scaner.OnStepEvent += (step) =>
             {
                 InvokeSafe(() =>
                 {
@@ -103,14 +121,14 @@ namespace Aplicacion.Vistas.Empleado
                 });
             };
 
-            _scaner.OnSuccess += (data) =>
+            _scaner.OnSuccessEvent += (data) =>
             {
                 InvokeSafe(() =>
                 {
                     Enums.EDedo dedo = (Enums.EDedo)_cbxDedo.SelectedIndex;
-                    Program.DbContext.DatosBiometricos.DeleteMany(x => x.EmpladoId == _datos.Id && (x.Dedo == dedo && x.ManoDerecha == _chbManoDerecha.Checked));
+                    DataContext.Current.DatosBiometricos.DeleteMany(x => x.EmpladoId == _datos.Id && (x.Dedo == dedo && x.ManoDerecha == _chbManoDerecha.Checked));
 
-                    Program.DbContext.DatosBiometricos.Insert(new DatosBiometrico()
+                    DataContext.Current.DatosBiometricos.Insert(new DatosBiometrico()
                     {
                         EmpladoId = _datos.Id,
                         Data = data,
@@ -127,9 +145,12 @@ namespace Aplicacion.Vistas.Empleado
                     _progress.Value = 0;
                     _scaner.StopCapture();
                     _scaner.ReseteCapture();
+                    UpdateRegisters();
                     MessageBox.Show("Registro biometrico completo exitosamente");
                 });
             };
+
+            return true;
 
         }
 
@@ -155,9 +176,9 @@ namespace Aplicacion.Vistas.Empleado
             if (form.ShowDialog() == DialogResult.OK)
             {
                 Enums.EDedo dedo = (Enums.EDedo)_cbxDedo.SelectedIndex;
-                Program.DbContext.DatosBiometricos.DeleteMany(x => x.EmpladoId == _datos.Id && (x.Dedo == dedo && x.ManoDerecha == _chbManoDerecha.Checked));
+                DataContext.Current.DatosBiometricos.DeleteMany(x => x.EmpladoId == _datos.Id && (x.Dedo == dedo && x.ManoDerecha == _chbManoDerecha.Checked));
 
-                Program.DbContext.DatosBiometricos.Insert(new DatosBiometrico()
+                DataContext.Current.DatosBiometricos.Insert(new DatosBiometrico()
                 {
                     EmpladoId = _datos.Id,
                     Data = form.Bytes,

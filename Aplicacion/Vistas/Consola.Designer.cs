@@ -28,15 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Consola));
             this._txtLog = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // textBox1
+            // _txtLog
             // 
             this._txtLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this._txtLog.Location = new System.Drawing.Point(0, 0);
             this._txtLog.Multiline = true;
-            this._txtLog.Name = "textBox1";
+            this._txtLog.Name = "_txtLog";
+            this._txtLog.ReadOnly = true;
             this._txtLog.Size = new System.Drawing.Size(671, 425);
             this._txtLog.TabIndex = 0;
             // 
@@ -46,6 +48,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 425);
             this.Controls.Add(this._txtLog);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Consola";
             this.Text = "Consola";
             this.ResumeLayout(false);

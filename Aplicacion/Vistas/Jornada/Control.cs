@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AppData;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Aplicacion.Vistas.Jornada
@@ -22,11 +23,11 @@ namespace Aplicacion.Vistas.Jornada
             int id = (int)_table.Rows[e.RowIndex].Cells[0].Value;
             Formulario form = new Formulario
             {
-                Datos = Program.DbContext.Jornadas.FindById(id)
+                Datos = DataContext.Current.Jornadas.FindById(id)
             };
             if (form.ShowDialog() == DialogResult.Yes)
             {
-                Program.DbContext.Jornadas.Update(form.Datos);
+                DataContext.Current.Jornadas.Update(form.Datos);
                 ActualizarTable();
             }
         }
@@ -35,11 +36,11 @@ namespace Aplicacion.Vistas.Jornada
         {
             Formulario form = new Formulario
             {
-                Datos = new Datos.Jornada()
+                Datos = new AppData.Jornada()
             };
             if (form.ShowDialog() == DialogResult.Yes)
             {
-                Program.DbContext.Jornadas.Insert(form.Datos);
+                DataContext.Current.Jornadas.Insert(form.Datos);
                 ActualizarTable();
             }
         }
@@ -48,10 +49,10 @@ namespace Aplicacion.Vistas.Jornada
         {
             _table.Rows.Clear();
             _table.Rows.Add("Cargando datos ...");
-            IEnumerable<Datos.Jornada> jornadas = Program.DbContext.Jornadas.FindAll();
+            IEnumerable<AppData.Jornada> jornadas = DataContext.Current.Jornadas.FindAll();
             _table.Rows.Clear();
 
-            foreach (Datos.Jornada x in jornadas)
+            foreach (AppData.Jornada x in jornadas)
                 _table.Rows.Add(x.Id, x.Nombre,
                     x.Lunes + x.Martes + x.Miercoles + x.Jueves + x.Viernes + x.Sabado + x.Domingo);
         }

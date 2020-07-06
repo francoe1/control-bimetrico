@@ -102,7 +102,7 @@
             this._txtNombre.Location = new System.Drawing.Point(72, 83);
             this._txtNombre.Name = "_txtNombre";
             this._txtNombre.Size = new System.Drawing.Size(171, 20);
-            this._txtNombre.TabIndex = 2;
+            this._txtNombre.TabIndex = 1;
             // 
             // _numLunes
             // 
@@ -114,7 +114,7 @@
             0});
             this._numLunes.Name = "_numLunes";
             this._numLunes.Size = new System.Drawing.Size(47, 20);
-            this._numLunes.TabIndex = 3;
+            this._numLunes.TabIndex = 2;
             // 
             // label3
             // 
@@ -156,7 +156,7 @@
             0});
             this._numMiercoles.Name = "_numMiercoles";
             this._numMiercoles.Size = new System.Drawing.Size(47, 20);
-            this._numMiercoles.TabIndex = 3;
+            this._numMiercoles.TabIndex = 4;
             // 
             // label5
             // 
@@ -177,7 +177,7 @@
             0});
             this._numJueves.Name = "_numJueves";
             this._numJueves.Size = new System.Drawing.Size(47, 20);
-            this._numJueves.TabIndex = 3;
+            this._numJueves.TabIndex = 5;
             // 
             // label6
             // 
@@ -198,7 +198,7 @@
             0});
             this._numViernes.Name = "_numViernes";
             this._numViernes.Size = new System.Drawing.Size(47, 20);
-            this._numViernes.TabIndex = 3;
+            this._numViernes.TabIndex = 6;
             // 
             // label7
             // 
@@ -219,7 +219,7 @@
             0});
             this._numSabado.Name = "_numSabado";
             this._numSabado.Size = new System.Drawing.Size(47, 20);
-            this._numSabado.TabIndex = 3;
+            this._numSabado.TabIndex = 7;
             // 
             // label8
             // 
@@ -240,7 +240,7 @@
             0});
             this._numDomingo.Name = "_numDomingo";
             this._numDomingo.Size = new System.Drawing.Size(47, 20);
-            this._numDomingo.TabIndex = 3;
+            this._numDomingo.TabIndex = 8;
             // 
             // label9
             // 
@@ -259,7 +259,7 @@
             this._btnGuardar.Location = new System.Drawing.Point(169, 295);
             this._btnGuardar.Name = "_btnGuardar";
             this._btnGuardar.Size = new System.Drawing.Size(75, 23);
-            this._btnGuardar.TabIndex = 5;
+            this._btnGuardar.TabIndex = 11;
             this._btnGuardar.Text = "Guardar";
             this._btnGuardar.UseVisualStyleBackColor = false;
             // 
@@ -271,7 +271,7 @@
             this._btnCancelar.Location = new System.Drawing.Point(88, 295);
             this._btnCancelar.Name = "_btnCancelar";
             this._btnCancelar.Size = new System.Drawing.Size(75, 23);
-            this._btnCancelar.TabIndex = 5;
+            this._btnCancelar.TabIndex = 12;
             this._btnCancelar.Text = "Cancelar";
             this._btnCancelar.UseVisualStyleBackColor = false;
             // 
@@ -298,7 +298,7 @@
             0});
             this._numPrecioExtra.Name = "_numPrecioExtra";
             this._numPrecioExtra.Size = new System.Drawing.Size(85, 20);
-            this._numPrecioExtra.TabIndex = 0;
+            this._numPrecioExtra.TabIndex = 10;
             // 
             // _numPrecioNormal
             // 
@@ -310,7 +310,7 @@
             0});
             this._numPrecioNormal.Name = "_numPrecioNormal";
             this._numPrecioNormal.Size = new System.Drawing.Size(85, 20);
-            this._numPrecioNormal.TabIndex = 0;
+            this._numPrecioNormal.TabIndex = 9;
             // 
             // label11
             // 

@@ -1,8 +1,8 @@
-﻿using Aplicacion.Datos;
+﻿using AppData;
 using DPFP;
+using Fingerprint;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -10,70 +10,90 @@ namespace Aplicacion.Vistas.Lector
 {
     public partial class Control : Form
     {
-        private Fingerprint.FingerReader reader { get; set; }
+        private FingerReader reader { get; set; }
         public bool IsRuning { get; private set; }
+
+        private Consola m_consola { get; set; }
 
         public Control()
         {
+            if (Readers.Collection.Length == 0)
+            {
+                MessageBox.Show("El lector no esta disponible");
+                return;
+            }
+
             InitializeComponent();
-            reader = new Fingerprint.FingerReader();
+
+            m_consola = new Consola();
+            m_consola.FormClosing += (o, e) => { e.Cancel = true; ((Consola)o).Hide(); };
+
+            reader = new FingerReader();
             _btnConsole.Click += (o, e) => OnConsole();
             _btnStart.Click += (o, e) => OnStart();
             _btnStop.Click += (o, e) => OnStop();
-            reader.OnCapture += OnCapture;
+
+            reader.OnCaptureEvent += OnCapture;
 
             _lblState.Text = "Detenido";
-            _btnStop.Enabled = false;
-            _btnStart.Enabled = true;
+            _btnStop.Visible = false;
+            _btnStart.Visible = true;
 
-            Text += "V." + GetType().Assembly.GetName().Version.ToString();
+            Text += " " + GetType().Assembly.GetName().Version.ToString();
+
+            m_lblUid.Text = Readers.Collection[0].SerialNumber;
+            m_lblFirmeware.Text = Readers.Collection[0].FirmwareVersion.ToString();
+            m_lblName.Text = Readers.Collection[0].ProductName;
 
             OnStart();
         }
 
         private void OnCapture(Sample sample)
         {
+            Beep(1000, 200);
             try
             {
                 Program.Debug.Log("Se capturo un dato biometrico");
 
                 bool fingerFind = false;
 
-                foreach (Datos.Empleado empleado in Program.DbContext.Empleado.FindAll())
+                foreach (AppData.Empleado empleado in DataContext.Current.Empleado.FindAll())
                 {
-                    IEnumerable<DatosBiometrico> datosBiometricos = Program.DbContext.DatosBiometricos.Find(x => x.EmpladoId == empleado.Id);
-                    IEnumerable<Datos.RegistroHorario> registros = Program.DbContext.RegistroHorarios.Find(x => x.EmpladoId == empleado.Id);
+                    IEnumerable<DatosBiometrico> datosBiometricos = DataContext.Current.DatosBiometricos.Find(x => x.EmpladoId == empleado.Id);
+                    IEnumerable<AppData.RegistroHorario> registros = DataContext.Current.RegistroHorarios.Find(x => x.EmpladoId == empleado.Id);
                     List<byte[]> datos = new List<byte[]>();
 
                     foreach (DatosBiometrico biometrico in datosBiometricos)
                         datos.Add(biometrico.Data);
 
-                    if (reader.Verify(sample, datos.ToList()))
+                    if (reader.Verify(sample, datos))
                     {
                         Program.Debug.Log($"Macheo de datos con empleado {empleado.Nombre} {empleado.Apellido}");
 
-                        Datos.RegistroHorario openRegister = registros.Take(1).SingleOrDefault(x => x.Estado == Enums.ERegistroEstado.Abierto);
+                        AppData.RegistroHorario openRegister = registros.Where(x => x.Estado == Enums.ERegistroEstado.Abierto).Take(1).SingleOrDefault();
 
                         if (openRegister is object)
                         {
                             openRegister.Salida = DateTime.Now;
                             openRegister.Estado = Enums.ERegistroEstado.Cerrado;
                             Program.Debug.Log($"Se cerro el turno {openRegister.Id}");
-                            Program.DbContext.RegistroHorarios.Update(openRegister);
+                            DataContext.Current.RegistroHorarios.Update(openRegister);
+                            Beep(1300, 100, 3);
                             Tools.Audio.PlayAudio(Program.Conf.AudioFingerprintFin);
                         }
                         else
                         {
-                            Datos.RegistroHorario reg = new Datos.RegistroHorario
+                            AppData.RegistroHorario reg = new AppData.RegistroHorario
                             {
                                 EmpladoId = empleado.Id,
                                 Entrada = DateTime.Now,
                                 Estado = Enums.ERegistroEstado.Abierto
                             };
 
-                            Program.DbContext.RegistroHorarios.Insert(reg);
+                            DataContext.Current.RegistroHorarios.Insert(reg);
 
                             Program.Debug.Log("Se abrio un nuevo turno");
+                            Beep(1500, 50, 6);
                             Tools.Audio.PlayAudio(Program.Conf.AudioFingerprintInicio);
                         }
                         fingerFind = true;
@@ -82,7 +102,10 @@ namespace Aplicacion.Vistas.Lector
                 }
 
                 if (!fingerFind)
+                {
                     Tools.Audio.PlayAudio(Program.Conf.AudioFingerprintIncorrecto);
+                    Beep(1010, 2000);
+                }
             }
             catch (Exception ex)
             {
@@ -90,12 +113,20 @@ namespace Aplicacion.Vistas.Lector
             }
         }
 
+        private void Beep(int frequency, int duration, int repeat = 1)
+        {
+            for(int i = 0; i < repeat; i++)
+            {
+                Console.Beep(frequency, duration);
+            }
+        }
+
         private void OnStop()
         {
             IsRuning = false;
             _lblState.Text = "Detenido";
-            _btnStop.Enabled = false;
-            _btnStart.Enabled = true;
+            _btnStop.Visible = false;
+            _btnStart.Visible = true;
             reader.StopCapture();
 
             Program.Debug.Log("Se detuvo el lector");
@@ -105,8 +136,8 @@ namespace Aplicacion.Vistas.Lector
         {
             IsRuning = true;
             _lblState.Text = "Iniciado";
-            _btnStop.Enabled = true;
-            _btnStart.Enabled = false;
+            _btnStop.Visible = true;
+            _btnStart.Visible = false;
             reader.StartCapture();
 
             Program.Debug.Log("Se inicio el lector");
@@ -114,8 +145,7 @@ namespace Aplicacion.Vistas.Lector
 
         private void OnConsole()
         {
-            Consola form = new Consola();
-            form.Show();
+            m_consola.Show();
         }
     }
 }

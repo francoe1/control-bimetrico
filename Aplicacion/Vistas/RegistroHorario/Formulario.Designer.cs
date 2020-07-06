@@ -89,7 +89,7 @@
             this._dtpSalida.Location = new System.Drawing.Point(87, 114);
             this._dtpSalida.Name = "_dtpSalida";
             this._dtpSalida.Size = new System.Drawing.Size(185, 20);
-            this._dtpSalida.TabIndex = 1;
+            this._dtpSalida.TabIndex = 2;
             // 
             // label3
             // 
@@ -141,7 +141,7 @@
             this._btnCancelar.Location = new System.Drawing.Point(115, 168);
             this._btnCancelar.Name = "_btnCancelar";
             this._btnCancelar.Size = new System.Drawing.Size(75, 23);
-            this._btnCancelar.TabIndex = 4;
+            this._btnCancelar.TabIndex = 5;
             this._btnCancelar.Text = "Cancelar";
             this._btnCancelar.UseVisualStyleBackColor = false;
             // 

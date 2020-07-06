@@ -1,4 +1,4 @@
-﻿using Aplicacion.Datos;
+﻿using AppData;
 using System.Windows.Forms;
 
 namespace Aplicacion.Vistas.Usuarios
@@ -18,10 +18,10 @@ namespace Aplicacion.Vistas.Usuarios
 
                 Formulario form = new Formulario();
                 int id = (int)_table.Rows[e.RowIndex].Cells[0].Value;
-                form.Datos = Program.DbContext.Usuarios.FindById(id);
+                form.Datos = DataContext.Current.Usuarios.FindById(id);
                 if (form.ShowDialog() == DialogResult.Yes)
                 {
-                    Program.DbContext.Usuarios.Update(form.Datos);
+                    DataContext.Current.Usuarios.Update(form.Datos);
                     UpdateTable();
                 }
             };
@@ -42,7 +42,7 @@ namespace Aplicacion.Vistas.Usuarios
                 == DialogResult.Yes)
             {
                 int id = (int)_table.SelectedRows[0].Cells[0].Value;
-                Program.DbContext.Usuarios.Delete(id);
+                DataContext.Current.Usuarios.Delete(id);
                 UpdateTable();
             }
         }
@@ -51,7 +51,7 @@ namespace Aplicacion.Vistas.Usuarios
         {
             _table.Rows.Clear();
 
-            foreach (Usuario usuario in Program.DbContext.Usuarios.FindAll())
+            foreach (Usuario usuario in DataContext.Current.Usuarios.FindAll())
                 _table.Rows.Add(usuario.Id, usuario.Nombre, usuario.Email, usuario.Clave);
         }
 
@@ -63,7 +63,7 @@ namespace Aplicacion.Vistas.Usuarios
             };
             if (form.ShowDialog() != DialogResult.Cancel)
             {
-                Program.DbContext.Usuarios.Insert(form.Datos);
+                DataContext.Current.Usuarios.Insert(form.Datos);
                 UpdateTable();
             }
         }

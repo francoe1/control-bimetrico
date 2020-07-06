@@ -1,6 +1,6 @@
-﻿using System;
+﻿using AppData;
+using System;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -10,8 +10,8 @@ namespace Aplicacion.Vistas.RegistroHorario
     {
         private FiltroForm m_filters { get; set; } = new FiltroForm();
 
-        private Datos.Empleado _datos { get; set; }
-        public Datos.Empleado Datos
+        private AppData.Empleado _datos { get; set; }
+        public AppData.Empleado Datos
         {
             get
             {
@@ -36,14 +36,14 @@ namespace Aplicacion.Vistas.RegistroHorario
         {
             Formulario form = new Formulario
             {
-                Datos = new Datos.RegistroHorario { Estado = Aplicacion.Datos.Enums.ERegistroEstado.Cerrado }
+                Datos = new AppData.RegistroHorario { Estado = Enums.ERegistroEstado.Cerrado }
             };
 
             if (form.ShowDialog() == DialogResult.Yes)
             {
-                Datos.Empleado empleado = Program.DbContext.Empleado.FindById(Datos.Id);
+                AppData.Empleado empleado = DataContext.Current.Empleado.FindById(Datos.Id);
                 form.Datos.EmpladoId = empleado.Id;
-                Program.DbContext.RegistroHorarios.Insert(form.Datos);
+                DataContext.Current.RegistroHorarios.Insert(form.Datos);
                 UpdateTable();
             }
         }
@@ -56,11 +56,11 @@ namespace Aplicacion.Vistas.RegistroHorario
             int id = (int)_table.Rows[e.RowIndex].Cells[0].Value;
             Formulario form = new Formulario
             {
-                Datos = Program.DbContext.RegistroHorarios.FindById(id)
+                Datos = DataContext.Current.RegistroHorarios.FindById(id)
             };
             if (form.ShowDialog() == DialogResult.Yes)
             {
-                Program.DbContext.RegistroHorarios.Update(form.Datos);
+                DataContext.Current.RegistroHorarios.Update(form.Datos);
                 UpdateTable();
             }
         }
@@ -69,7 +69,7 @@ namespace Aplicacion.Vistas.RegistroHorario
         {
             _table.Rows.Clear();
 
-            foreach (var registro in Program.DbContext
+            foreach (var registro in DataContext.Current
                 .RegistroHorarios
                 .Find(x => x.EmpladoId == Datos.Id && x.Entrada > m_filters.DateStart && x.Salida < m_filters.DateEnd)
                 .Take(Program.Conf.MaxRegistros)

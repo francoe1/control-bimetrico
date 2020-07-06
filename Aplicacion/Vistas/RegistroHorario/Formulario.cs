@@ -5,8 +5,8 @@ namespace Aplicacion.Vistas.RegistroHorario
 {
     public partial class Formulario : Form
     {
-        private Datos.RegistroHorario _datos { get; set; }
-        public Datos.RegistroHorario Datos
+        private AppData.RegistroHorario _datos { get; set; }
+        public AppData.RegistroHorario Datos
         {
             get
             {
@@ -15,7 +15,7 @@ namespace Aplicacion.Vistas.RegistroHorario
             set
             {
                 _datos = value;
-                _cbxEstado.DataSource = Enum.GetNames(typeof(Datos.Enums.ERegistroEstado));
+                _cbxEstado.DataSource = Enum.GetNames(typeof(AppData.Enums.ERegistroEstado));
                 _cbxEstado.SelectedIndex = (int)_datos.Estado;
 
                 if (_datos.Entrada != null)
@@ -53,7 +53,7 @@ namespace Aplicacion.Vistas.RegistroHorario
         {
             _datos.Entrada = _dtpEntrada.Value;
             _datos.Salida = _dtpSalida.Value;
-            _datos.Estado = (Datos.Enums.ERegistroEstado)_cbxEstado.SelectedIndex;
+            _datos.Estado = (AppData.Enums.ERegistroEstado)_cbxEstado.SelectedIndex;
             DialogResult = DialogResult.Yes;
         }
     }

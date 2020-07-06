@@ -1,4 +1,5 @@
-﻿using Aplicacion.Datos;
+﻿using Aplicacion.Tools;
+using AppData;
 using FastReporter;
 using FastReporter.Minimalist;
 using System;
@@ -18,7 +19,7 @@ namespace Aplicacion.Vistas.Reportes
             for (int i = 0; i < _chlFiltros.Items.Count; i++)
                 _chlFiltros.SetItemChecked(i, true);
 
-            _cbxEmpleados.DataSource = Program.DbContext.Empleado.FindAll().ToList();
+            _cbxEmpleados.DataSource = DataContext.Current.Empleado.FindAll().ToList();
             _cbxEmpleados.ValueMember = "Id";
             _cbxEmpleados.DisplayMember = "DisplayMember";
 
@@ -46,13 +47,13 @@ namespace Aplicacion.Vistas.Reportes
             page.SetStyle("padding:10px");
             page.Append(new HtmlItem(HtmlTag.h5, "Reportes general de usuarios"));
 
-            foreach (Datos.Empleado empleado in Program.DbContext
+            foreach (AppData.Empleado empleado in DataContext.Current
                 .Empleado
                 .Find(x => x.Id == (!_chbTodos.Checked ? (int)_cbxEmpleados.SelectedValue : x.Id)))
             {
 
-                IEnumerable<DatosBiometrico> datosBiometricos = Program.DbContext.DatosBiometricos.Find(x => x.EmpladoId == empleado.Id);
-                IEnumerable<Datos.RegistroHorario> registros = Program.DbContext.RegistroHorarios.Find(x => x.EmpladoId == empleado.Id);
+                IEnumerable<DatosBiometrico> datosBiometricos = DataContext.Current.DatosBiometricos.Find(x => x.EmpladoId == empleado.Id);
+                IEnumerable<AppData.RegistroHorario> registros = DataContext.Current.RegistroHorarios.Find(x => x.EmpladoId == empleado.Id);
 
                 page.Append(new HtmlItem(HtmlTag.h3, empleado.Nombre + " " + empleado.Apellido));
                 if (empleado.Jornada != null)
@@ -70,7 +71,7 @@ namespace Aplicacion.Vistas.Reportes
             page.Visualize();
         }
 
-        private HtmlObject HtmlRegistroHorario(List<Datos.RegistroHorario> registros, Datos.Jornada jordana)
+        private HtmlObject HtmlRegistroHorario(List<AppData.RegistroHorario> registros, AppData.Jornada jordana)
         {
             HtmlPage page = new HtmlPage("-");
             HtmlTable table = new HtmlTable("table-striped", "Fecha", "Registros", "H. Trabajadas", "H. Extras");
@@ -82,7 +83,7 @@ namespace Aplicacion.Vistas.Reportes
             foreach (var group in registros.Where(x =>
                     x.Entrada != null
                     && x.Salida != null
-                    && x.Estado == Datos.Enums.ERegistroEstado.Cerrado)
+                    && x.Estado == AppData.Enums.ERegistroEstado.Cerrado)
                    .GroupBy(x => x.Entrada.Value.Date))
             {
                 TimeSpan hours = new TimeSpan();

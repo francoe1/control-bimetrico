@@ -5,8 +5,8 @@ namespace Aplicacion.Vistas.Usuarios
 {
     public partial class Formulario : Form
     {
-        private Datos.Usuario _datos { get; set; }
-        public Datos.Usuario Datos
+        private AppData.Usuario _datos { get; set; }
+        public AppData.Usuario Datos
         {
             get
             {
