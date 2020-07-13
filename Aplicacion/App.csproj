@@ -1,5 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.6\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.6\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props')" />
+  <Import Project="..\packages\Microsoft.NetFramework.Analyzers.2.9.6\build\Microsoft.NetFramework.Analyzers.props" Condition="Exists('..\packages\Microsoft.NetFramework.Analyzers.2.9.6\build\Microsoft.NetFramework.Analyzers.props')" />
+  <Import Project="..\packages\Microsoft.NetCore.Analyzers.2.9.6\build\Microsoft.NetCore.Analyzers.props" Condition="Exists('..\packages\Microsoft.NetCore.Analyzers.2.9.6\build\Microsoft.NetCore.Analyzers.props')" />
+  <Import Project="..\packages\Microsoft.CodeQuality.Analyzers.2.9.6\build\Microsoft.CodeQuality.Analyzers.props" Condition="Exists('..\packages\Microsoft.CodeQuality.Analyzers.2.9.6\build\Microsoft.CodeQuality.Analyzers.props')" />
+  <Import Project="..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.6\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.6\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -13,6 +18,22 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -23,6 +44,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -38,6 +62,24 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>biometric.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>FE76EA04D994133618CB5218EABAAF989A29D7C1</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>App_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DPFPCtlXWrapperNET, Version=1.6.1.0, Culture=neutral, PublicKeyToken=c0c98f712d5392a7, processorArchitecture=MSIL">
@@ -96,41 +138,41 @@
     <Compile Include="Tools\Configuracion.cs" />
     <Compile Include="Tools\Audio.cs" />
     <Compile Include="Tools\Debug.cs" />
-    <Compile Include="Vistas\Configuracion\Control.cs">
+    <Compile Include="Vistas\Configuracion\MainFromControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Vistas\Configuracion\Control.Designer.cs">
-      <DependentUpon>Control.cs</DependentUpon>
+    <Compile Include="Vistas\Configuracion\MainFromControl.Designer.cs">
+      <DependentUpon>MainFromControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\Consola.cs">
+    <Compile Include="Vistas\ConsolaForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vistas\Consola.Designer.cs">
-      <DependentUpon>Consola.cs</DependentUpon>
+    <Compile Include="Vistas\ConsolaForm.Designer.cs">
+      <DependentUpon>ConsolaForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\Empleado\Biometrico.cs">
+    <Compile Include="Vistas\Empleado\BiometricoForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vistas\Empleado\Biometrico.Designer.cs">
-      <DependentUpon>Biometrico.cs</DependentUpon>
+    <Compile Include="Vistas\Empleado\BiometricoForm.Designer.cs">
+      <DependentUpon>BiometricoForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\Empleado\BiometricoManual.cs">
+    <Compile Include="Vistas\Empleado\BiometricoManualForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vistas\Empleado\BiometricoManual.Designer.cs">
-      <DependentUpon>BiometricoManual.cs</DependentUpon>
+    <Compile Include="Vistas\Empleado\BiometricoManualForm.Designer.cs">
+      <DependentUpon>BiometricoManualForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\Empleado\Control.cs">
+    <Compile Include="Vistas\Empleado\MainFormControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Vistas\Empleado\Control.Designer.cs">
-      <DependentUpon>Control.cs</DependentUpon>
+    <Compile Include="Vistas\Empleado\MainFormControl.Designer.cs">
+      <DependentUpon>MainFormControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\Empleado\Formulario.cs">
+    <Compile Include="Vistas\Empleado\FormularioForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vistas\Empleado\Formulario.Designer.cs">
-      <DependentUpon>Formulario.cs</DependentUpon>
+    <Compile Include="Vistas\Empleado\FormularioForm.Designer.cs">
+      <DependentUpon>FormularioForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Vistas\InicioForm.cs">
       <SubType>Form</SubType>
@@ -138,29 +180,29 @@
     <Compile Include="Vistas\InicioForm.Designer.cs">
       <DependentUpon>InicioForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\Jornada\Control.cs">
+    <Compile Include="Vistas\Jornada\MainFormControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Vistas\Jornada\Control.Designer.cs">
-      <DependentUpon>Control.cs</DependentUpon>
+    <Compile Include="Vistas\Jornada\MainFormControl.Designer.cs">
+      <DependentUpon>MainFormControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\Jornada\Formulario.cs">
+    <Compile Include="Vistas\Jornada\FormularioForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vistas\Jornada\Formulario.Designer.cs">
-      <DependentUpon>Formulario.cs</DependentUpon>
+    <Compile Include="Vistas\Jornada\FormularioForm.Designer.cs">
+      <DependentUpon>FormularioForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\Lector\Control.cs">
+    <Compile Include="Vistas\Lector\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vistas\Lector\Control.Designer.cs">
-      <DependentUpon>Control.cs</DependentUpon>
+    <Compile Include="Vistas\Lector\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\RegistroHorario\Control.cs">
+    <Compile Include="Vistas\RegistroHorario\MainFormControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Vistas\RegistroHorario\Control.Designer.cs">
-      <DependentUpon>Control.cs</DependentUpon>
+    <Compile Include="Vistas\RegistroHorario\MainFormControl.Designer.cs">
+      <DependentUpon>MainFormControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Vistas\RegistroHorario\FiltroForm.cs">
       <SubType>Form</SubType>
@@ -168,35 +210,35 @@
     <Compile Include="Vistas\RegistroHorario\FiltroForm.Designer.cs">
       <DependentUpon>FiltroForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\RegistroHorario\Formulario.cs">
+    <Compile Include="Vistas\RegistroHorario\FormularioForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vistas\RegistroHorario\Formulario.Designer.cs">
-      <DependentUpon>Formulario.cs</DependentUpon>
+    <Compile Include="Vistas\RegistroHorario\FormularioForm.Designer.cs">
+      <DependentUpon>FormularioForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\Reportes\Control.cs">
+    <Compile Include="Vistas\Reportes\MainFormControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Vistas\Reportes\Control.Designer.cs">
-      <DependentUpon>Control.cs</DependentUpon>
+    <Compile Include="Vistas\Reportes\MainFormControl.Designer.cs">
+      <DependentUpon>MainFormControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\Splash.cs">
+    <Compile Include="Vistas\SplashForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vistas\Splash.Designer.cs">
-      <DependentUpon>Splash.cs</DependentUpon>
+    <Compile Include="Vistas\SplashForm.Designer.cs">
+      <DependentUpon>SplashForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\Usuarios\Control.cs">
+    <Compile Include="Vistas\Usuarios\MainFormControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Vistas\Usuarios\Control.Designer.cs">
-      <DependentUpon>Control.cs</DependentUpon>
+    <Compile Include="Vistas\Usuarios\MainFormControl.Designer.cs">
+      <DependentUpon>MainFormControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\Usuarios\Formulario.cs">
+    <Compile Include="Vistas\Usuarios\FormularioForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vistas\Usuarios\Formulario.Designer.cs">
-      <DependentUpon>Formulario.cs</DependentUpon>
+    <Compile Include="Vistas\Usuarios\FormularioForm.Designer.cs">
+      <DependentUpon>FormularioForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -204,62 +246,62 @@
     <Compile Include="UI\Helper.cs" />
     <Compile Include="UI\Mathf.cs" />
     <Compile Include="UI\MenuControl.cs" />
-    <Compile Include="Vistas\Usuarios\FormularioAcceso.cs">
+    <Compile Include="Vistas\Usuarios\FormularioAccesoForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vistas\Usuarios\FormularioAcceso.Designer.cs">
-      <DependentUpon>FormularioAcceso.cs</DependentUpon>
+    <Compile Include="Vistas\Usuarios\FormularioAccesoForm.Designer.cs">
+      <DependentUpon>FormularioAccesoForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Vistas\Configuracion\Control.resx">
-      <DependentUpon>Control.cs</DependentUpon>
+    <EmbeddedResource Include="Vistas\Configuracion\MainFromControl.resx">
+      <DependentUpon>MainFromControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vistas\Consola.resx">
-      <DependentUpon>Consola.cs</DependentUpon>
+    <EmbeddedResource Include="Vistas\ConsolaForm.resx">
+      <DependentUpon>ConsolaForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vistas\Empleado\Biometrico.resx">
-      <DependentUpon>Biometrico.cs</DependentUpon>
+    <EmbeddedResource Include="Vistas\Empleado\BiometricoForm.resx">
+      <DependentUpon>BiometricoForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vistas\Empleado\BiometricoManual.resx">
-      <DependentUpon>BiometricoManual.cs</DependentUpon>
+    <EmbeddedResource Include="Vistas\Empleado\BiometricoManualForm.resx">
+      <DependentUpon>BiometricoManualForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vistas\Empleado\Control.resx">
-      <DependentUpon>Control.cs</DependentUpon>
+    <EmbeddedResource Include="Vistas\Empleado\MainFormControl.resx">
+      <DependentUpon>MainFormControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vistas\Empleado\Formulario.resx">
-      <DependentUpon>Formulario.cs</DependentUpon>
+    <EmbeddedResource Include="Vistas\Empleado\FormularioForm.resx">
+      <DependentUpon>FormularioForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\InicioForm.resx">
       <DependentUpon>InicioForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vistas\Jornada\Control.resx">
-      <DependentUpon>Control.cs</DependentUpon>
+    <EmbeddedResource Include="Vistas\Jornada\MainFormControl.resx">
+      <DependentUpon>MainFormControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vistas\Jornada\Formulario.resx">
-      <DependentUpon>Formulario.cs</DependentUpon>
+    <EmbeddedResource Include="Vistas\Jornada\FormularioForm.resx">
+      <DependentUpon>FormularioForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vistas\Lector\Control.resx">
-      <DependentUpon>Control.cs</DependentUpon>
+    <EmbeddedResource Include="Vistas\Lector\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vistas\RegistroHorario\Control.resx">
-      <DependentUpon>Control.cs</DependentUpon>
+    <EmbeddedResource Include="Vistas\RegistroHorario\MainFormControl.resx">
+      <DependentUpon>MainFormControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\RegistroHorario\FiltroForm.resx">
       <DependentUpon>FiltroForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vistas\RegistroHorario\Formulario.resx">
-      <DependentUpon>Formulario.cs</DependentUpon>
+    <EmbeddedResource Include="Vistas\RegistroHorario\FormularioForm.resx">
+      <DependentUpon>FormularioForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vistas\Reportes\Control.resx">
-      <DependentUpon>Control.cs</DependentUpon>
+    <EmbeddedResource Include="Vistas\Reportes\MainFormControl.resx">
+      <DependentUpon>MainFormControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vistas\Splash.resx">
-      <DependentUpon>Splash.cs</DependentUpon>
+    <EmbeddedResource Include="Vistas\SplashForm.resx">
+      <DependentUpon>SplashForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vistas\Usuarios\Control.resx">
-      <DependentUpon>Control.cs</DependentUpon>
+    <EmbeddedResource Include="Vistas\Usuarios\MainFormControl.resx">
+      <DependentUpon>MainFormControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vistas\Usuarios\Formulario.resx">
-      <DependentUpon>Formulario.cs</DependentUpon>
+    <EmbeddedResource Include="Vistas\Usuarios\FormularioForm.resx">
+      <DependentUpon>FormularioForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -271,10 +313,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Vistas\Usuarios\FormularioAcceso.resx">
-      <DependentUpon>FormularioAcceso.cs</DependentUpon>
+    <EmbeddedResource Include="Vistas\Usuarios\FormularioAccesoForm.resx">
+      <DependentUpon>FormularioAccesoForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -284,9 +327,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Datos\AppData.csproj">
@@ -315,7 +355,27 @@
     <Content Include="Resources\CSS_IE9.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="TextFile1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.6\analyzers\dotnet\cs\Microsoft.CodeAnalysis.VersionCheckAnalyzer.resources.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeQuality.Analyzers.2.9.6\analyzers\dotnet\cs\Humanizer.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.6\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.6\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeQuality.Analyzers.2.9.6\build\Microsoft.CodeQuality.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeQuality.Analyzers.2.9.6\build\Microsoft.CodeQuality.Analyzers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.NetCore.Analyzers.2.9.6\build\Microsoft.NetCore.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NetCore.Analyzers.2.9.6\build\Microsoft.NetCore.Analyzers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.NetFramework.Analyzers.2.9.6\build\Microsoft.NetFramework.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NetFramework.Analyzers.2.9.6\build\Microsoft.NetFramework.Analyzers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.6\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.6\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props'))" />
+  </Target>
 </Project>

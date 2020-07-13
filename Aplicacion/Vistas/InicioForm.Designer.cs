@@ -41,11 +41,11 @@
             this._btnConfiguracion = new System.Windows.Forms.Button();
             this._btnSalir = new System.Windows.Forms.Button();
             this._panelControls = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.m_toolbar = new System.Windows.Forms.Panel();
             this._lblTitle = new System.Windows.Forms.Label();
             this.menuVertical.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
+            this.m_toolbar.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuVertical
@@ -300,17 +300,17 @@
             this._panelControls.Size = new System.Drawing.Size(749, 629);
             this._panelControls.TabIndex = 1;
             // 
-            // panel3
+            // m_toolbar
             // 
-            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.m_toolbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(65)))), ((int)(((byte)(74)))));
-            this.panel3.Controls.Add(this._lblTitle);
-            this.panel3.Location = new System.Drawing.Point(219, -1);
-            this.panel3.Margin = new System.Windows.Forms.Padding(0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(748, 34);
-            this.panel3.TabIndex = 0;
+            this.m_toolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(65)))), ((int)(((byte)(74)))));
+            this.m_toolbar.Controls.Add(this._lblTitle);
+            this.m_toolbar.Location = new System.Drawing.Point(219, -1);
+            this.m_toolbar.Margin = new System.Windows.Forms.Padding(0);
+            this.m_toolbar.Name = "m_toolbar";
+            this.m_toolbar.Size = new System.Drawing.Size(748, 34);
+            this.m_toolbar.TabIndex = 0;
             // 
             // _lblTitle
             // 
@@ -328,7 +328,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(967, 661);
-            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.m_toolbar);
             this.Controls.Add(this._panelControls);
             this.Controls.Add(this.menuVertical);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -339,8 +339,8 @@
             this.menuVertical.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
+            this.m_toolbar.ResumeLayout(false);
+            this.m_toolbar.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -354,7 +354,7 @@
         private System.Windows.Forms.Button _btnEmpleado;
         private System.Windows.Forms.Button _btnReportes;
         private System.Windows.Forms.Panel _panelControls;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel m_toolbar;
         private System.Windows.Forms.Label _lblTitle;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button _btnSalir;

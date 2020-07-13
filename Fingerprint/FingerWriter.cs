@@ -9,6 +9,7 @@ namespace Fingerprint
 {
     public class FingerWriter : DPFP.Capture.EventHandler
     {
+        public static event Action<CaptureFeedback> ReaderStatusCaptureEvent;
         private delegate void _delegateDefault();
 
         public delegate void SuccessDelegate(byte[] data);
@@ -193,6 +194,7 @@ namespace Fingerprint
             CaptureFeedback CaptureFeedback = CaptureFeedback.None;
             feature = new FeatureSet();
             m_extractor.CreateFeatureSet(sample, DataPurpose.Enrollment, ref CaptureFeedback, ref feature);
+            ReaderStatusCaptureEvent?.Invoke(CaptureFeedback);
             if (CaptureFeedback == CaptureFeedback.Good)
             {
                 return true;

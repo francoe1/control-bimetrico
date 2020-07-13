@@ -1,82 +1,66 @@
 ﻿using Aplicacion.Tools;
 using Aplicacion.Vistas;
+using Aplicacion.Vistas.Usuarios;
 using AppData;
+using Fingerprint;
 using System;
-using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Aplicacion
 {
-    public class Program
+    public static class Program
     {
         public static event Action UpdateEvent;
         public static Debug Debug { get; private set; }
         public static InicioForm InicioForm { get; private set; }
-        public static Vistas.Usuarios.FormularioAcceso FormularioAcceso { get; private set; }
+        public static FormularioAccesoForm FormularioAcceso { get; private set; }
         public static Configuracion Conf { get; private set; }
 
         [STAThread]
         private static void Main(string[] args)
-        {            
-            Debug = new Debug();
-            {
-                IEnumerable<DatosBiometrico> data = DataContext.Current.DatosBiometricos.FindAll();
-
-                foreach(DatosBiometrico bioA in data)
-                {
-                   foreach(DatosBiometrico bioB in data)
-                    {
-                        if (bioA.Id == bioB.Id) continue;
-
-                        if (bioA.Data == bioB.Data)
-                        {
-                            MessageBox.Show($"Existen {bioA.EmpladoId} datos biometrico repetidos");
-                            break;
-                        }
-                    }
-                }
-            }
-
+        {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            new Program();
+            Debug = new Debug();
 
-            if (args == null || args.Length == 0)
-                args = new string[] { "" };
-
-
-            args = new string[] { "onlector" };
+            StartUpdateTick();
 
             if (!StartProgram())
             {
                 MessageBox.Show("Error al iniciar", "¡Error FATAL!");
                 Close();
+                return;
             }
-            else
-            {
-                if (args.Length > 0 && args[0].ToLower().Equals("onlector"))
-                {
-                    SetupLector();
-                    Application.Run(new Vistas.Lector.Control());
-                }
-                else
-                {
 
-                    FormularioAcceso = new Vistas.Usuarios.FormularioAcceso();
-                    if (FormularioAcceso.ShowDialog() == DialogResult.Yes)
-                    {
-                        InicioForm = new InicioForm();
-                        Application.Run(InicioForm);
-                    }
-                }
+            if (IsLector(args))
+            {
+                SetupLector();
+                Application.Run(new Vistas.Lector.MainForm());
+                return;
             }
+
+            FingerReader.ReaderStatusCaptureEvent += (e) => Debug.Log("Reader " + e.ToString());
+            FingerWriter.ReaderStatusCaptureEvent += (e) => Debug.Log("Writer " + e.ToString());
+
+            FormularioAcceso = new FormularioAccesoForm();
+            if (FormularioAcceso.ShowDialog() == DialogResult.Yes)
+            {
+                InicioForm = new InicioForm();
+                Application.Run(InicioForm);
+            }
+
+        }
+
+        private static bool IsLector(string[] args)
+        {
+            if (args is null || args.Length != 1 || args[0] != "onlector") return false;
+            return true;            
         }
 
         private static bool StartProgram()
         {
-            Splash splash = new Splash
+            SplashForm splash = new SplashForm
             {
                 StartPosition = FormStartPosition.CenterScreen
             };
@@ -101,14 +85,11 @@ namespace Aplicacion
             if (DataContext.Current.Usuarios.Count() == 0)
             {
                 MessageBox.Show("El sistema no encontro ningun usuario para ser utilizado. cree uno a continuación");
-                Vistas.Usuarios.Formulario form = new Vistas.Usuarios.Formulario
-                {
-                    Datos = new Usuario()
-                };
+                FormularioForm form = new FormularioForm { Datos = new Usuario() };
                 if (form.ShowDialog() == DialogResult.Yes)
-                {
                     DataContext.Current.Usuarios.Insert(form.Datos);
-                }
+                else
+                    return false;
             }
 
             splash.SetProgress(100);
@@ -133,12 +114,9 @@ namespace Aplicacion
             }
         }
 
-        private Program()
+        private static void StartUpdateTick()
         {
-            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer
-            {
-                Interval = 1000
-            };
+            Timer timer = new Timer { Interval = 10 };
             timer.Tick += (o, e) => UpdateEvent?.Invoke();
             timer.Start();
         }

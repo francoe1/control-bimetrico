@@ -1,6 +1,4 @@
 ﻿using Aplicacion.UI;
-using System;
-using System.IO;
 using System.Windows.Forms;
 
 namespace Aplicacion.Vistas
@@ -10,12 +8,12 @@ namespace Aplicacion.Vistas
         public Efectos FX { get; private set; }
         public MenuControl MainMenu { get; private set; }
 
-        public Usuarios.Control UsuarioControl { get; private set; }
-        public Empleado.Control EmpleadoControl { get; private set; }
-        public RegistroHorario.Control RegistroHorarioControl { get; private set; }
-        public Reportes.Control ReporteControl { get; private set; }
-        public Jornada.Control JornadaControl { get; private set; }
-        public Configuracion.Control ConfiguracionControl { get; private set; }
+        public Usuarios.MainFormControl UsuarioControl { get; private set; }
+        public Empleado.MainFormControl EmpleadoControl { get; private set; }
+        public RegistroHorario.MainFormControl RegistroHorarioControl { get; private set; }
+        public Reportes.MainFormControl ReporteControl { get; private set; }
+        public Jornada.MainFormControl JornadaControl { get; private set; }
+        public Configuracion.MainFormControl ConfiguracionControl { get; private set; }
 
         public InicioForm()
         {
@@ -23,12 +21,12 @@ namespace Aplicacion.Vistas
 
             FX = new Efectos();
             MainMenu = new MenuControl(_panelControls);
-            UsuarioControl = new Usuarios.Control();
-            EmpleadoControl = new Empleado.Control();
-            RegistroHorarioControl = new RegistroHorario.Control();
-            ReporteControl = new Reportes.Control();
-            JornadaControl = new Jornada.Control();
-            ConfiguracionControl = new Configuracion.Control();
+            UsuarioControl = new Usuarios.MainFormControl();
+            EmpleadoControl = new Empleado.MainFormControl();
+            RegistroHorarioControl = new RegistroHorario.MainFormControl();
+            ReporteControl = new Reportes.MainFormControl();
+            JornadaControl = new Jornada.MainFormControl();
+            ConfiguracionControl = new Configuracion.MainFormControl();
 
             Efectos.ConfigurationFX conf = new Efectos.ConfigurationFX { Transicion = 5 };
             FX.Add(_btnUsers, conf);
@@ -48,9 +46,10 @@ namespace Aplicacion.Vistas
             MainMenu.Link("Configuración", _btnConfiguracion, ConfiguracionControl);
 
             MainMenu.HideAll();
-            _btnConsola.Click += (o, e) => { new Consola().Show(); };
+            MainMenu.SwithTo("Empleado");
+            _btnConsola.Click += (o, e) => { new ConsolaForm().Show(); };
             _btnSalir.Click += (o, e) => Close();
-            Program.UpdateEvent += FX.Update;    
+            Program.UpdateEvent += FX.Update;
         }
 
         protected override CreateParams CreateParams
